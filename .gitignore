@@ -1,0 +1,18 @@
+# Не загружать видео и большие файлы
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.zip
+*.rar
+*.psd
+*.ai
+*.exe
+*.iso
+
+# Кэш и временные файлы
+node_modules/
+dist/
+.DS_Store
+Thumbs.db
