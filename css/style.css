@@ -4,6 +4,173 @@
     box-sizing: border-box;
 }
 
+/* ===== 3D Ring Carousel (из test.html) ===== */
+.slider-container {
+    position: fixed;
+    left: 50%;
+    top: 62.5%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    padding: 0 64px;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.scene {
+    position: relative;
+    width: min(90vw);
+    height: min(50vw);
+    perspective: 1200px;
+    margin: 0 auto;
+}
+
+.ring {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transition: transform .8s cubic-bezier(.2, .7, .1, 1);
+}
+
+.item {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: clamp(220px, 26vw, 560px);
+    height: clamp(160px, 18vw, 410px);
+    transform-style: preserve-3d;
+    translate: -50% -50%;
+    border-radius: 10px;
+    overflow: hidden;
+    pointer-events: auto;
+}
+
+.item img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    transform: translateZ(var(--zfix, 0px)) rotateY(var(--counter, 0deg));
+    transition: transform 1.6s ease-in-out;
+}
+
+
+
+/* твой селектор — размеры/позицию не меняем */
+.item .item-caption {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 10%;
+    width: 110%;
+    text-align: center;
+    font-weight: 700;
+    font-size: clamp(22px, 5vw, 56px);
+    letter-spacing: 0.5px;
+    color: #fff;
+    /* заливаем градиентом по тексту */
+    background-color: #E8A95B;
+    background-image:
+        radial-gradient(ellipse farthest-corner at right bottom, #ffffff 0%, #F0BB7A 20%, #E8A95B 60%, transparent 80%),
+        radial-gradient(ellipse farthest-corner at left top, #ffffff 0%, #F0BB7A 50%, #DE9945 75%, #E8A95B 100%);
+    background-size: 100% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    pointer-events: none;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, .45);
+}
+
+/* Задняя подложка и «экструзия» */
+/* отключаем прежний ::before — используем отдельный слой */
+.item .item-caption::before {
+    content: none;
+}
+
+/* слой-тень с градиентом, смещён вправо-вверх */
+.item .item-caption .caption-shadow {
+    position: absolute;
+    left: 50.5%;
+    top: 5.5%;
+    transform: translate(calc(-50% + 1px), -6px);
+    color: transparent;
+    /* насыщенный золотой градиент */
+    background: -webkit-linear-gradient(transparent, transparent), -webkit-linear-gradient(top,
+        rgba(255, 225, 95, 1) 0%,
+        rgba(255, 210, 40, 1) 18%,
+        rgba(245, 188, 20, 1) 32%,
+        rgba(205, 145, 15, 1) 46%,
+        rgba(250, 205, 40, 1) 62%,
+        rgba(255, 220, 110, 1) 78%,
+        rgba(240, 180, 35, 1) 90%,
+        rgba(212, 175, 55, 1) 100%);
+    background: -o-linear-gradient(transparent, transparent), -o-linear-gradient(top,
+        rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+    background: linear-gradient(transparent, transparent), linear-gradient(to bottom,
+        rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+    filter: saturate(1.15) brightness(1.05);
+    background-clip: text;
+    -webkit-background-clip: text;
+    white-space: nowrap;
+    z-index: 1;
+}
+
+.item .item-caption .caption-fill {
+    position: relative;
+    z-index: 2;
+}
+
+/* Бегущий блик */
+.item .item-caption::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    transform: none;
+    background-image: linear-gradient(100deg, transparent 0%, transparent 6rem, #ffffff 11rem, transparent 11.15rem, transparent 15rem, rgba(255, 255, 255, 0.3) 20rem, transparent 25rem, transparent 27rem, rgba(255, 255, 255, 0.6) 32rem, #ffffff 33rem, rgba(255, 255, 255, 0.3) 33.15rem, transparent 38rem, transparent 40rem, rgba(255, 255, 255, 0.3) 45rem, transparent 50rem, transparent 100%);
+    background-clip: text;
+    background-size: 60rem 100%;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    animation: shine 4s linear infinite alternate both;
+}
+
+
+
+.slider-btn {
+    pointer-events: auto;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(4px);
+    cursor: pointer;
+    z-index: 4;
+}
+
+.slider-btn.prev {
+    left: 12px;
+}
+
+.slider-btn.next {
+    right: 12px;
+}
+
+.item[data-depth="back"] {
+    filter: blur(2px) brightness(.9);
+    opacity: .75;
+}
+
+.item[data-depth="mid"] {
+    filter: blur(1px);
+    opacity: .9;
+}
+
 html,
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -71,14 +238,14 @@ body {
     column-gap: 2%;
 }
 
-.navigation-buttons-kitaplar > .col-6 {
+.navigation-buttons-kitaplar>.col-6 {
     padding-left: 0;
     padding-right: 0;
     flex: 0 0 calc((100% - 2%) / 2);
     max-width: calc((100% - 2%) / 2);
 }
 
-.navigation-buttons-taryhy > .col-6 {
+.navigation-buttons-taryhy>.col-6 {
     padding-left: 0;
     padding-right: 0;
     flex: 0 0 calc((100% - 2%) / 2);

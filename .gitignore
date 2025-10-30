@@ -1,3 +1,18 @@
+# Ignore image assets (keep videos and other files)
+
+# Entire images subfolder
+assets/images/
+
+# Common image extensions anywhere under assets
+assets/**/*.png
+assets/**/*.jpg
+assets/**/*.jpeg
+assets/**/*.webp
+assets/**/*.gif
+assets/**/*.svg
+
+# Do not ignore videos
+!assets/videos/**
 # Не загружать видео и большие файлы
 *.mp4
 *.mov
