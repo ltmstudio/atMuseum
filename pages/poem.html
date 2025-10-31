@@ -11,23 +11,22 @@
 <body>
     <div class="video-container">
         <video id="mainVideo" autoplay muted loop playsinline>
-            <source src="../assets/videos/shygyrlar/shygyrlar_menu.mp4" type="video/mp4">
-            <!-- <source src="C:\Users\Windows 10 PRO\museum\5 - ŞYGYRLAR/shegyrlar_fon.mp4" type="video/mp4"> my çomp-->
+            <!-- <source src="../assets/videos/shygyrlar/shygyrlar_menu.mp4" type="video/mp4"> -->
+            <source src="C:\Users\Windows 10 PRO\museum\5 - ŞYGYRLAR/shegyrlar_fon.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
 <div class="container-poem d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="card-body flex-grow-0 flex-shrink-0" style="z-index: 10; width: 80vh; height: 80vh; background-color: rgba(255, 255, 255, 0.4);">
-        <h2 id="poem-title" class="card-title  text-center mb-3" style="color: black;"></h2>
+    <div class="card-body flex-grow-0 flex-shrink-0 card-body-poem">
+        <h2 id="poem-title" class="card-title  text-center mb-3 poem-title"></h2>
         <div id="poem-scroll" class="poem-scroll">
-            <pre id="poem-text" class="card-text"
-                 style="white-space:pre-wrap; font-family:'Georgia',serif; font-size:clamp(0.95rem, 2vw, 1.15rem); line-height:1.55; word-break:break-word; hyphens:auto; text-align: center;">
+            <pre id="poem-text" class="card-text-poem">
             </pre>
           </div>
     </div>
 </div>
         <div class="navigation-container">
             <div class="container-fluid">
-                <a href="javascript:history.back()" class="back-btn">← Назад</a>
+             <a href="javascript:history.back()" class="back-btn" aria-label="Назад на главную"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></a>
                
             </div>
         </div>

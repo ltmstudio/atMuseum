@@ -1,6 +1,6 @@
 const poems = {
     1: {
-      title: "Sen ak atda, Sen gyr atda, ganatda",
+      title: "SEN AK ATDA, SEN GYR ATDA, GANATDA",
       text: `
 Giň sähraýa salam berip ugradyň,
 Ajaýyp görnüşiň çekdim suratyn.
@@ -36,7 +36,7 @@ Gözel Şagulyýewa,
 Türkmenistanyň Gahrymany.`
     },
     2: {
-      title: "Akhanyň ak ýoly dowam, Arkadag!",
+      title: "AKHANÝN AK ÝOLY DOWAM, ARKADAG!",
       text: `
 Her bir üstünligňi belleýändirin,
 Aýry däldir, Akhan, senden ykbalym.
@@ -82,7 +82,7 @@ Gözel Şagulyýewa,
 Türkmenistanyň Gahrymany.`
     },
     3: {
-      title: "Bedew",
+      title: "BEDEW",
       text: `
 Ýaryşmaga meýli bolan guşlar ürke-ürke geler,
 Kä çapyp, käte ýorgalap, menzilleri, ülke gezer.
@@ -120,39 +120,77 @@ Ogultäç Oraztaganowa`
       title: "DÖWLET GUŞY",
       text: `
 Arkadagym Akhanyna atlanyp,
-Nazarlaýar Watanymyzyň geljegin,
-Baş müň ýyllyk taryhyna ser salsak,
+Nazarlaýar Watanmyzyň geljegin.
+Bäş müň ýyllyk taryhyna ser salsak,
 Türkmen gören dälidir şeýle gerçegi.
 
-Gyr atyň kişnäp çarpaýa çyksa,
-Arkadagym at üstünde ýygylyýar.
-Şeýis bolup, Rowaç tära guwansa,
-Mähälle begnip örboýna galýar.
+Gyr atyn kişňedip çarpaýa galsa,
+Arkadagym at üstünde ýylgyrýar.
+Seýis bolup, Rowaç taýa guwansa,
+Mähelle begenip örboýna galýar.
 
-Gözelligi ak kagyza geçirip,
-Läleý-de, undup barmy şeýdip pursaty?!
-Tebigat hem joşgun-ýnam eçildi,
-Jeýhunyň kimin ýaryp barýar gursagy.
+Gözelligi ak kagyza geçirdim,
+Heý-de, undup bormy şeýle pursaty?!
+Tebigat hem joşgun-ylham eçildi,
+Jeýhun kimin ýaryp barýar gursagy.
 
-Bahar-gyýzde mähälle köp aýlawda,
-Arkadagym Akhanyna aýlanýar,
-Döwlet guşy gondy iki egniňe,
+Bahar-güýzde mähelle köp aýlawda,
+Arkadagym Akhanynda aýlanýar.
+Döwlet guşy gondy iki egnine,
 Watan hakda, geljek hakda oýlanýar.
 
-At-abraýly arşa galýan Watanda,
-Asmanyňy öwür, ýollar ýaktdyr.
-Çarpaýyna galyp, bedew kişnesin,
+At-abraýy arşa galýan Watanda,
+Asmanymyz dury, ýollar ýagtydyr.
+Çarpaýyna galyp, bedew kişňesin,
 At türkmeniň ganatydyr, bagtydyr.
 
-Öwezgeldi MÄTÉROW.`
+Öwezgeldi MÄTEROW.`
     },
     5: {
-      title: "",
-      text: ``
+      title: "ÝÖR, GARDAŞYM!",
+      text: `
+Tizliginden çaňda galýar ýellerem,
+Ýalyň ýuwa deýin seçelenip dur.
+Seniň bilen aýlanaly älemi,
+Uç bedew, Asmana syýahatyň gur.
+
+Ýol sal, Arşyň gujagyna göterlip,
+Ýedi yklym içre ýaňlanýar sesiň.
+Toýnaklaň astynda göze-de ilmän,
+Yza akýar ýerleň belendem-pesem.
+
+Bakyşyňda paýhasy bar atamyň,
+Basyşyňda gyz-geliniň näzi bar.
+Gamyşgulak dal bedewim, syrdaşym,
+Seň üstüňde mert ýigitleň şany bar.
+
+Biserhet buýsanjym, dostum, gardaşym,
+Hem ganatym, guş deýin Göge uçmaga.
+Watan künjün aýlanaly biz bile,
+Bagtyýar kalplara şatlyk guçmaga.
+
+Garahanjar BAÝHANOW,
+Türkmenistanyň Döwlet serhet gullugynyň çagyryş boýunça harby gullukçysy, esger.`
     },
     6: {
-      title: "",
-      text: ``
+      title: "DÜNÝÄNIŇ ŞÖHRATY",
+      text: `
+Guwanjyna, buýsanjyna öwrülen,
+Gadymlardan bäri türkmen halkymyň.
+Ahalteke bedewleri toýlara,
+Bezeg berýär bu gün saçyp ýalkymyn.
+
+Ynsana deňelen türkmen bedewi,
+Hakyky dost kimin duýgudaş, syrdaş.
+Üsti şalaň tagty, ýürekdeşligi,
+Ýakyn hossaryňa deňelen gardaş.
+
+Baýram güni gözeller deý beslenip,
+Toý sazyna aýak goşýar, şatlanýar.
+Arkadagyň söýgüsinden, pähminden
+Türkmeniň bedewi has şöhratlanýar.
+
+Çemen ANNABERDIÝEWA.`
     },
   };
   

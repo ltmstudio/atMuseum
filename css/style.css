@@ -509,3 +509,15 @@ body {
     stroke-linecap: round;
     stroke-linejoin: round;
 }
+
+
+.card-body-poem{
+    position: relative; left: 52%; z-index: 10; width: 80vh; height: 80vh; background-color: rgba(255, 255, 255, 0.4); left:0;
+}
+.poem-title{ 
+    color: black;
+}
+.card-text-poem{
+    white-space:pre-wrap; font-size:clamp(0.95rem, 2vw, 1.15rem); line-height:1.55; word-break:break-word; hyphens:auto; text-align: center;
+    font-family:'Georgia',serif;
+}
