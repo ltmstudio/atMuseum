@@ -4,12 +4,13 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeVideo();
     initializeNavigation();
     initializeHorseSlider();
+    initializeBedewlerDetails();
 });
 
 function initializeVideo() {
     const video = document.getElementById('mainVideo');
     if (!video) return;
-    video.play().catch(() => {});
+    video.play().catch(() => { });
 }
 
 function initializeNavigation() {
@@ -60,6 +61,7 @@ function initializeHorseSlider() {
     const step = 360 / N;
     let index = 0;
     let autoTimer = null;
+    let suppressClickUntil = 0; // защита от клика сразу после свайпа
 
     function layout() {
         items.forEach((el, i) => {
@@ -80,8 +82,8 @@ function initializeHorseSlider() {
     }
 
     // Выставляет контр‑поворот и лёгкое выдвижение соседей слева/справа от текущего индекса
-    function setNeighborCounters(targetIndex){
-        items.forEach((el,i)=>{
+    function setNeighborCounters(targetIndex) {
+        items.forEach((el, i) => {
             const rel360 = ((i - targetIndex) * step % 360 + 360) % 360;
             const signed = rel360 > 180 ? rel360 - 360 : rel360; // -180..180
             const isFrontTrio = Math.abs(signed) <= step + 0.1; // центр и два соседа
@@ -121,19 +123,177 @@ function initializeHorseSlider() {
         if (!autoTimer) autoTimer = setInterval(() => go(1), 3000);
     });
 
-    // свайп
+    // клики по слайдам → переход на страницу деталей с id из alt
+    items.forEach((el) => {
+        el.addEventListener('click', () => {
+            if (Date.now() < suppressClickUntil) return; // игнорировать после свайпа
+            const img = el.querySelector('img');
+            const id = img && img.alt ? encodeURIComponent(img.alt.trim()) : '';
+            window.location.href = `bedewler-details.html?id=${id}`;
+        });
+    });
+
+    // перетаскивание мышкой и свайп
+    let isDragging = false;
+    let startX = null;
+    let startIndex = null;
+    let currentRotation = 0;
+    // Пикселей для перехода на один слайд (чем больше — тем медленнее)
+    const pixelsPerSlide = 260;
+    // Сглаживание анимации во время перетаскивания
+    let targetRotation = 0;
+    let displayRotation = 0;
+    let rafId = null;
+
+    function rafTick(){
+        displayRotation += (targetRotation - displayRotation) * 0.12; // плавное приближение
+        ring.style.transform = `rotateY(${displayRotation}deg)`;
+        if (Math.abs(targetRotation - displayRotation) > 0.05) {
+            rafId = requestAnimationFrame(rafTick);
+        } else {
+            rafId = null;
+        }
+    }
+
+    function startDrag(e) {
+        if (e.button !== undefined && e.button !== 0 && e.type !== 'pointerdown') return; // только ЛКМ
+        if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+        isDragging = true;
+        startX = e.clientX;
+        startIndex = index;
+        currentRotation = -index * step;
+        targetRotation = currentRotation;
+        displayRotation = currentRotation;
+        ring.style.transition = 'none';
+        container.style.cursor = 'grabbing';
+        if (!rafId) rafId = requestAnimationFrame(rafTick);
+        e.preventDefault();
+    }
+
+    function handleDrag(e) {
+        if (!isDragging || startX === null) return;
+        const dx = e.clientX - startX;
+        const deltaSlides = dx / pixelsPerSlide; // сколько «слайдов» по горизонтали протащили
+        const deltaAngle = deltaSlides * step;   // переводим в градусы
+        targetRotation = currentRotation + deltaAngle;
+        if (!rafId) rafId = requestAnimationFrame(rafTick);
+        e.preventDefault();
+    }
+
+    function endDrag(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        ring.style.transition = ''; // вернуть CSS-анимацию для снапа
+        container.style.cursor = '';
+
+        // Находим ближайший слайд на основе текущего угла поворота
+        // Используем displayRotation (реальный текущий угол) вместо targetRotation
+        // Индекс вычисляется: rotation = -index * step, значит index = -rotation / step
+        let currentAngle = displayRotation;
+        let closestIndex = Math.round(-currentAngle / step);
+        // Нормализуем индекс в диапазон 0..N-1
+        closestIndex = ((closestIndex % N) + N) % N;
+        
+        // Обновляем индекс только если он действительно изменился
+        if (closestIndex !== index) {
+            index = closestIndex;
+            setNeighborCounters(index);
+        }
+        
+        // Плавно анимируем к позиции выбранного слайда
+        const finalRotation = -index * step;
+        ring.style.transform = `rotateY(${finalRotation}deg)`;
+        clearTimeout(go.t);
+        go.t = setTimeout(updateDepth, 820);
+        
+        const dx = startX !== null ? e.clientX - startX : 0;
+        if (Math.abs(dx) > 30) suppressClickUntil = Date.now() + 250;
+
+        startX = null;
+        startIndex = null;
+        currentRotation = finalRotation;
+        targetRotation = finalRotation;
+        displayRotation = finalRotation;
+        if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+        // вернуть авто-прокрутку
+        if (!autoTimer) autoTimer = setInterval(() => go(1), 3000);
+    }
+
+    // Для мыши
+    ring.addEventListener('mousedown', startDrag);
+    window.addEventListener('mousemove', handleDrag);
+    window.addEventListener('mouseup', endDrag);
+
+    // Для touch и pointer (сохраняем существующий функционал)
     let sx = null;
     ring.addEventListener('pointerdown', (e) => {
+        startDrag(e);
         sx = e.clientX;
     });
+    window.addEventListener('pointermove', handleDrag);
     window.addEventListener('pointerup', (e) => {
+        endDrag(e);
         if (sx == null) return;
         const dx = e.clientX - sx;
-        if (Math.abs(dx) > 30) go(dx < 0 ? 1 : -1);
+        if (Math.abs(dx) > 30 && !isDragging) {
+            go(dx < 0 ? 1 : -1);
+            suppressClickUntil = Date.now() + 250;
+        }
         sx = null;
     });
 
     layout();
     autoTimer = setInterval(() => go(1), 3000);
+}
+
+// Инициализация страницы деталей Bedewler: загружаем контент по id из query
+function initializeBedewlerDetails() {
+    const headerWrap = document.querySelector('.details-header .item-caption');
+    const titleFill = document.querySelector('.details-header .item-caption .caption-fill');
+    const titleShadow = document.querySelector('.details-header .item-caption .caption-shadow');
+    const textEl = document.querySelector('.details-text .details-text-content');
+    const imgEl = document.querySelector('.details-figure .figure-img');
+    if (!headerWrap || !titleFill || !titleShadow || !textEl || !imgEl) return;
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'ÝANARDAG';
+    const slug = id.trim();
+    const url = `../content/bedewler/${encodeURIComponent(slug)}.json`;
+
+    // Локальный словарь вынесен в отдельный файл content/bedewler/content.js
+    const local = (window.BEDEWLER_CONTENT && window.BEDEWLER_CONTENT[slug]) || null;
+    if (local) {
+        titleFill.textContent = local.title;
+        titleShadow.textContent = local.title;
+        headerWrap.setAttribute('data-text', local.title);
+        textEl.textContent = local.text;
+        imgEl.src = `../assets/images/bedewler/${local.image}`;
+        imgEl.alt = local.title;
+        return; // не делаем fetch, всё уже подставили
+    }
+
+    fetch(url)
+        .then(r => r.ok ? r.json() : Promise.reject(new Error('Not found')))
+        .then(data => {
+            const title = data.title || slug;
+            const text = data.text || '';
+            const imageFile = data.image || '';
+            titleFill.textContent = title;
+            titleShadow.textContent = title;
+            headerWrap.setAttribute('data-text', title);
+            textEl.textContent = text;
+            if (imageFile) {
+                // Если указан относительный путь c папкой — используем как есть, иначе берём из assets/images/bedewler/atlar_png
+                const isDirectPath = /[\\/]/.test(imageFile);
+                imgEl.src = isDirectPath ? imageFile : `../assets/images/bedewler/atlar_png/${imageFile}`;
+                imgEl.alt = title;
+            }
+        })
+        .catch(() => {
+            // Фоллбек: заполняем из id, оставляем текущую картинку
+            titleFill.textContent = slug;
+            titleShadow.textContent = slug;
+            headerWrap.setAttribute('data-text', slug);
+        });
 }
 
