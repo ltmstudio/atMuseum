@@ -1,3 +1,14 @@
+:root {
+    /* Стиль текста для детальных страниц - можно менять только размер шрифта */
+    --text-content-font-size: clamp(16px, 2vw, 31px);
+    --text-content-line-height: 1.5;
+    --text-content-color: #fff;
+    --text-content-text-align: justify;
+    --text-content-text-indent: 20px;
+    --text-content-margin-bottom: 20px;
+    --text-content-text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -235,14 +246,25 @@
     pointer-events: auto;
 }
 
+/* Универсальный класс для текстового контента - использует CSS переменные */
+.text-content {
+    font-size: var(--text-content-font-size);
+    line-height: var(--text-content-line-height);
+    color: var(--text-content-color);
+    text-align: var(--text-content-text-align);
+    text-indent: var(--text-content-text-indent);
+    margin-bottom: var(--text-content-margin-bottom);
+    text-shadow: var(--text-content-text-shadow);
+}
+
 .details-text-content {
-    font-size: clamp(16px, 2vw, 31px);
-    line-height: 1.5;
-    color: #fff;
-    text-align: justify;
-    text-indent: 20px;
-    margin-bottom: 20px;
-    text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
+    font-size: var(--text-content-font-size);
+    line-height: var(--text-content-line-height);
+    color: var(--text-content-color);
+    text-align: var(--text-content-text-align);
+    text-indent: var(--text-content-text-indent);
+    margin-bottom: var(--text-content-margin-bottom);
+    text-shadow: var(--text-content-text-shadow);
 }
 
 .details-figure {
