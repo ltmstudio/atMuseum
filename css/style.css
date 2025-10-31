@@ -42,6 +42,7 @@
     border-radius: 10px;
     overflow: hidden;
     pointer-events: auto;
+    cursor: pointer;
 }
 
 .item img {
@@ -94,18 +95,18 @@
     color: transparent;
     /* насыщенный золотой градиент */
     background: -webkit-linear-gradient(transparent, transparent), -webkit-linear-gradient(top,
-        rgba(255, 225, 95, 1) 0%,
-        rgba(255, 210, 40, 1) 18%,
-        rgba(245, 188, 20, 1) 32%,
-        rgba(205, 145, 15, 1) 46%,
-        rgba(250, 205, 40, 1) 62%,
-        rgba(255, 220, 110, 1) 78%,
-        rgba(240, 180, 35, 1) 90%,
-        rgba(212, 175, 55, 1) 100%);
+            rgba(255, 225, 95, 1) 0%,
+            rgba(255, 210, 40, 1) 18%,
+            rgba(245, 188, 20, 1) 32%,
+            rgba(205, 145, 15, 1) 46%,
+            rgba(250, 205, 40, 1) 62%,
+            rgba(255, 220, 110, 1) 78%,
+            rgba(240, 180, 35, 1) 90%,
+            rgba(212, 175, 55, 1) 100%);
     background: -o-linear-gradient(transparent, transparent), -o-linear-gradient(top,
-        rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+            rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
     background: linear-gradient(transparent, transparent), linear-gradient(to bottom,
-        rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+            rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
     filter: saturate(1.15) brightness(1.05);
     background-clip: text;
     -webkit-background-clip: text;
@@ -116,6 +117,205 @@
 .item .item-caption .caption-fill {
     position: relative;
     z-index: 2;
+}
+
+/* ===== Details (bedewler-details.html) ===== */
+.details-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.details-text {
+    position: absolute;
+    left: 16vw;
+    top: 27vh;
+    width: 40vw;
+    display: flex;
+    /* align-items: center; */
+    height: 56vh;
+    /* фиксированная высота, как просили */
+    overflow-y: auto;
+    /* внутренний скролл */
+    pointer-events: auto;
+    /* чтобы скролл и выделение работали поверх overlay */
+    /* Красивый скролл для Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: #d4af37 rgba(0, 0, 0, 0.25);
+}
+
+.details-header {
+    position: absolute;
+    left: 13vw;
+    top: 1.5vh;
+    width: 46vw;
+    height: clamp(60px, 9vw, 140px);
+    pointer-events: none;
+    display: grid;
+    /* центр заголовка */
+    place-items: center;
+    --hdrSize: clamp(56px, 10vw, 140px);
+}
+
+.details-header .caption-shadow {
+    position: absolute;
+    left: 50%;
+    top: 2.5%;
+    transform: translate(calc(-50% + 1px), -6px);
+    color: transparent;
+}
+
+
+.details-header .caption-fill {
+    position: relative;
+    z-index: 2;
+}
+
+/* Повторяем эффект из слайдов для заголовка, не меняя исходные классы */
+.details-header .item-caption {
+    position: relative;
+    line-height: 1;
+}
+
+.details-header .item-caption .caption-fill {
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: .03em;
+    text-shadow: 0 6px 12px rgba(0, 0, 0, .45);
+    white-space: nowrap;
+    font-size: var(--hdrSize);
+}
+
+.details-header .item-caption .caption-shadow {
+    font-size: calc(var(--hdrSize) + 10px);
+    /* сделать обводку толще, чем текст */
+    background: -webkit-linear-gradient(transparent, transparent), -webkit-linear-gradient(top,
+            rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+    background: -o-linear-gradient(transparent, transparent), -o-linear-gradient(top, rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+    background: linear-gradient(transparent, transparent), linear-gradient(to bottom, rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    font-weight: 700;
+}
+
+/* Красивый скролл для WebKit/Chromium */
+.details-text::-webkit-scrollbar {
+    width: 10px;
+}
+
+.details-text::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.22);
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .25);
+}
+
+.details-text::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: linear-gradient(180deg, #ffe15f 0%, #f0b72a 45%, #c88c16 100%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .35) inset;
+}
+
+.details-text::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ffe98a 0%, #ffc23f 45%, #d89a1a 100%);
+}
+
+.details-text .text-box {
+    width: 100%;
+    max-height: 100%;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.28);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 12px;
+    padding: 18px 22px;
+    overflow: auto;
+    pointer-events: auto;
+}
+
+.details-text-content {
+    font-size: clamp(16px, 2vw, 31px);
+    line-height: 1.5;
+    color: #fff;
+    text-align: justify;
+    text-indent: 20px;
+    margin-bottom: 20px;
+    text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
+}
+
+.details-figure {
+    position: absolute;
+    right: 9vw;
+    bottom: 10vh;
+    /* height: 26vw; */
+    /* width: 62vw; */
+    pointer-events: none;
+}
+
+.details-figure .figure-img {
+    width: 100%;
+    /* height: fit-content; */
+    object-fit: contain;
+    filter: drop-shadow(0 6px 24px rgba(0, 0, 0, .45));
+    height: 65vh;
+}
+
+.details-container {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    padding: 6vh 6vw;
+    pointer-events: none;
+}
+
+.details-panel {
+    max-width: 1100px;
+    width: min(94vw, 1100px);
+    background: rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, .45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 16px;
+    padding: 28px 28px 22px;
+    color: #fff;
+    pointer-events: auto;
+}
+
+.details-title {
+    font-weight: 800;
+    margin: 0 0 6px;
+    letter-spacing: .5px;
+}
+
+.details-sub {
+    opacity: .95;
+    margin: 0 0 18px;
+}
+
+.details-grid {
+    margin-top: 4px;
+}
+
+.details-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 16px;
+}
+
+.details-card .card-title {
+    font-size: clamp(18px, 2.2vw, 26px);
+    margin: 0 0 8px;
+}
+
+.details-card .card-text {
+    margin: 0;
+    line-height: 1.4;
 }
 
 /* Бегущий блик */
@@ -223,6 +423,14 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
+.navigation-container-btn {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 .navigation-buttons-home {
     padding-bottom: 5%;
@@ -263,11 +471,41 @@ body {
 }
 
 .back-btn {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: #007bff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
     color: white;
     text-decoration: none;
     position: relative;
     z-index: 3;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.back-btn:active {
+    transform: scale(0.95);
+}
+
+.back-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
