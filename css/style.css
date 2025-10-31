@@ -53,8 +53,6 @@
     transition: transform 1.6s ease-in-out;
 }
 
-
-
 /* твой селектор — размеры/позицию не меняем */
 .item .item-caption {
     position: absolute;
@@ -136,6 +134,15 @@
     animation: shine 4s linear infinite alternate both;
 }
 
+@keyframes shine {
+    0% {
+        background-position: -60rem 0;
+    }
+    100% {
+        background-position: 60rem 0;
+    }
+}
+
 
 
 .slider-btn {
@@ -204,17 +211,6 @@ body {
     transform: translate(-50%, -50%);
 }
 
-
-.video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.4);
-    z-index: 1;
-}
-
 .navigation-container {
     position: fixed;
     z-index: 2;
@@ -222,6 +218,48 @@ body {
     bottom: 14%;
     left: 50%;
     transform: translateX(-50%);
+}
+
+/* Taryhy page: place buttons a bit lower */
+.navigation-container--taryhy {
+    bottom: 3%;
+}
+
+/* Info page: centered vertical content starting around middle */
+.navigation-container--info {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    padding: 3rem 0;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.info-column {
+    width: min(1100px, 80vw);
+    margin: 0 auto;
+}
+
+.nav-btn.info-content {
+    width: 100%;
+    padding: 1.5rem 2rem;
+    background: transparent !important;
+    border: none !important;
+    overflow: visible;
+    position: relative;
+}
+
+/* Скрыть скроллбар */
+.nav-btn.info-content::-webkit-scrollbar {
+    width: 0px;
+    display: none;
 }
 
 .navigation-buttons-home {
@@ -252,14 +290,46 @@ body {
     max-width: calc((100% - 2%) / 2);
 }
 
+/* Первая кнопка - немного выше и правее */
+.navigation-container--taryhy .navigation-buttons-taryhy:first-of-type > .col-6:first-of-type {
+    position: relative !important;
+    transform: translate(40px, -5px) !important;
+}
+
+/* Вторая кнопка - немного левее и на той же высоте */
+.navigation-container--taryhy .navigation-buttons-taryhy:first-of-type > .col-6:last-of-type {
+    position: relative !important;
+    transform: translate(-110px, -5px) !important;
+}
+
+/* Третья кнопка - немного ниже и правее */
+.navigation-container--taryhy .navigation-buttons-taryhy:last-of-type > .col-6:first-of-type {
+    position: relative !important;
+    transform: translate(55px, 10px) !important;
+}
+
+/* Четвертая кнопка - такая же высота, сдвиг влево как у второй */
+.navigation-container--taryhy .navigation-buttons-taryhy:last-of-type > .col-6:last-of-type {
+    position: relative !important;
+    transform: translate(-110px, 10px) !important;
+}
+
 .nav-btn {
-    display: block;
+    display: flex;
     width: 100%;
-    background: rgba(255, 255, 255, 0.9);
-    border: 1px solid #000;
+    background: transparent !important;
+    border: none !important;
     position: relative;
     z-index: 2;
     min-height: 10vh;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(22px, 3vw, 42px);
+    line-height: 1.4;
+    color: #fff;
+    text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
+    text-decoration: none;
 }
 
 .back-btn {
@@ -270,4 +340,24 @@ body {
     text-decoration: none;
     position: relative;
     z-index: 3;
+}
+
+.taryhy-text-content {
+    font-size: clamp(22px, 3vw, 42px);
+    line-height: 1.4;
+    color: #fff;
+    text-align: center;
+    text-indent: 0;
+    margin-bottom: 20px;
+    text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
+    max-width: 100%;
+    word-spacing: 0.15em;
+    overflow-wrap: break-word;
+}
+
+.taryhy-text-content p {
+    margin-bottom: 0.4em;
+    line-height: 1.5;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }

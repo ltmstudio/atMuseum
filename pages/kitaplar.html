@@ -7,33 +7,36 @@
     
     <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="../css/style.css">
+    
+    <link rel="prefetch" href="../pdf/1.ATDA%20WEPA-DA%20BAR%2C%20SAPA-DA.pdf" as="document">
+    <link rel="prefetch" href="../pdf/%28wnut%29%20Sonky%20wariant%2018.04%20-%20TM_compressed%20%281%29.pdf" as="document">
 </head>
 <body>
     <div class="video-container">
         <video id="mainVideo" autoplay muted loop playsinline>
-            <source src="../assets/videos/kitaplar/kitaplar_menu.mp4" type="video/mp4">
+            <source src="C:\Users\User/kitaplar_menu.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
-        <div class="navigation-container">
+        <div class="navigation-container navigation-container--taryhy">
             <div class="container-fluid">
                 <a href="../index.html" class="back-btn">← Назад на главную</a>
                 <div class="col-12 row navigation-buttons-kitaplar gx-0">
                     <div class="col-6">
-                        <a href="#" class="nav-btn">
+                        <a href="./kitaplarinfo.html?key=book1" class="nav-btn">
                         </a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="nav-btn">
+                        <a href="./kitaplarinfo.html?key=book2" class="nav-btn">
                         </a>
                     </div>
                 </div>
                 <div class="col-12 row navigation-buttons-kitaplar gx-0">
                     <div class="col-6">
-                        <a href="#" class="nav-btn">
+                        <a href="./kitaplarinfo.html" class="nav-btn">
                         </a>
                     </div>
                     <div class="col-6">
-                        <a href="#" class="nav-btn">
+                        <a href="./kitaplarinfo.html" class="nav-btn">
                         </a>
                     </div>
                 </div>
@@ -43,5 +46,27 @@
 
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
+    <script>
+        (function() {
+            var pdfFiles = [
+                '../pdf/1.ATDA%20WEPA-DA%20BAR%2C%20SAPA-DA.pdf',
+                '../pdf/%28wnut%29%20Sonky%20wariant%2018.04%20-%20TM_compressed%20%281%29.pdf'
+            ];
+            
+            window.addEventListener('load', function() {
+                pdfFiles.forEach(function(pdfUrl) {
+                    var obj = document.createElement('object');
+                    obj.data = pdfUrl;
+                    obj.type = 'application/pdf';
+                    obj.className = 'pdf-prefetch-object';
+                    document.body.appendChild(obj);
+                    
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('GET', pdfUrl, true);
+                    xhr.send();
+                });
+            });
+        })();
+    </script>
 </body>
 </html>
