@@ -283,6 +283,51 @@ body {
     max-width: calc((100% - 2%) / 2);
 }
 
+.navigation-buttons-kitaplar .nav-btn {
+    word-wrap: break-word;
+    white-space: normal;
+    padding: 1rem;
+    font-size: clamp(18px, 2.5vw, 36px);
+    line-height: 1.3;
+}
+
+/* Первая кнопка kitaplar - немного правее и выше */
+.navigation-container--taryhy .navigation-buttons-kitaplar:first-of-type > .col-6:first-of-type {
+    position: relative !important;
+    transform: translate(65px, -5px) !important;
+}
+
+/* Вторая кнопка kitaplar - на той же высоте, текст левее */
+.navigation-container--taryhy .navigation-buttons-kitaplar:first-of-type > .col-6:last-of-type {
+    position: relative !important;
+    transform: translate(-100px, -5px) !important;
+}
+
+/* Третья кнопка kitaplar - ниже и правее */
+.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type > .col-6:first-of-type {
+    position: relative !important;
+    transform: translate(65px, 8px) !important;
+}
+
+/* Четвертая кнопка kitaplar - на той же высоте что и третья */
+.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type > .col-6:last-of-type {
+    position: relative !important;
+    transform: translate(-87px, 10px) !important;
+}
+
+/* Специальный стиль для четвертой кнопки - меньший шрифт */
+.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type > .col-6:last-of-type .nav-btn {
+    font-size: clamp(12px, 1.6vw, 24px);
+    line-height: 1.15;
+    padding: 0.4rem;
+}
+
+/* Третья и четвертая кнопки kitaplar - не кликабельны */
+.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type .nav-btn {
+    pointer-events: none;
+    cursor: default;
+}
+
 .navigation-buttons-taryhy>.col-6 {
     padding-left: 0;
     padding-right: 0;

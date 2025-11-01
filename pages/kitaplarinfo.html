@@ -11,7 +11,7 @@
 <body>
     <div class="video-container">
         <video id="mainVideo" autoplay muted loop playsinline>
-            <source src="C:\Users\User/kitaplar_fon.mp4" type="video/mp4">
+            <source src="../assets/videos/kitaplar/kitaplar_fon.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
 
@@ -31,6 +31,111 @@
 
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
+    <style>
+        .book-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            perspective: 2000px;
+            position: relative;
+        }
+        
+        .book-spread {
+            display: flex;
+            gap: 2px;
+            position: relative;
+        }
+        
+        .book-page {
+            position: relative;
+            width: 50vw;
+            max-width: 600px;
+            height: 80vh;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .book-page-left {
+            margin-right: 2px;
+        }
+        
+        .book-page-right {
+            margin-left: 2px;
+        }
+        
+        .book-page img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+        
+        .book-page:active img {
+            transform: scale(0.98);
+        }
+        
+        .page-flip-left {
+            animation: flipPageLeft 1.0s ease-out;
+        }
+        
+        .page-flip-right {
+            animation: flipPageRight 1.0s ease-out;
+        }
+        
+        @keyframes flipPageLeft {
+            0% { 
+                opacity: 1;
+            }
+            10% {
+                transform-origin: right center;
+                transform: perspective(1500px) rotateY(-10deg) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform-origin: right center;
+                transform: perspective(1500px) rotateY(-90deg) scale(0.95);
+                opacity: 0.3;
+            }
+            90% {
+                transform-origin: right center;
+                transform: perspective(1500px) rotateY(-170deg) scale(0.9);
+                opacity: 0;
+            }
+            100% { 
+                transform-origin: right center;
+                transform: perspective(1500px) rotateY(-180deg) scale(0.9);
+                opacity: 0;
+            }
+        }
+        
+        @keyframes flipPageRight {
+            0% { 
+                opacity: 1;
+            }
+            10% {
+                transform-origin: left center;
+                transform: perspective(1500px) rotateY(10deg) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform-origin: left center;
+                transform: perspective(1500px) rotateY(90deg) scale(0.95);
+                opacity: 0.3;
+            }
+            90% {
+                transform-origin: left center;
+                transform: perspective(1500px) rotateY(170deg) scale(0.9);
+                opacity: 0;
+            }
+            100% { 
+                transform-origin: left center;
+                transform: perspective(1500px) rotateY(180deg) scale(0.9);
+                opacity: 0;
+            }
+        }
+    </style>
+    
     <script>
     (function() {
         var params = new URLSearchParams(window.location.search);
@@ -38,46 +143,159 @@
 
         var contentEl = document.getElementById('info-content');
 
-        var pdfByKey = {
-            book1: { title: 'ATDA WEPA-DA BAR, SAPA-DA', file: '../pdf/1.ATDA%20WEPA-DA%20BAR%2C%20SAPA-DA.pdf' },
-            book2: { title: '(wnut) Sonky wariant 18.04 - TM', file: '../pdf/%28wnut%29%20Sonky%20wariant%2018.04%20-%20TM_compressed%20%281%29.pdf' }
+        var imageSetsByKey = {
+            book1: { 
+                title: 'Atda Wepa-da bar, Sapada', 
+                imageDir: '../pdf/ATDA WEPA-DA BAR, SAPA-DA/1.ATDA WEPA-DA BAR, SAPA-DA/',
+                imagePrefix: '1.ATDA WEPA-DA BAR, SAPA-DA - ',
+                totalPages: 358
+            },
+            book2: { 
+                title: 'Ganatly Bedew',
+                imageDir: '../pdf/Ganatly bedew/(wnut) Sonky wariant 18.04 - TM/',
+                imagePrefix: '(wnut) Sonky wariant 18.04 - TM - ',
+                totalPages: 288
+            },
+            book3: { 
+                title: 'Bedew Galkynyşyň Ganaty',
+                imageDir: '../pdf/Book3/',
+                imagePrefix: 'page-',
+                totalPages: 0
+            },
+            book4: { 
+                title: 'Ahalteke Bedewi - Biziň Buýsanjymyz we Şöhratymyz',
+                imageDir: '../pdf/Book4/',
+                imagePrefix: 'page-',
+                totalPages: 0
+            }
         };
 
-        var selected = pdfByKey[key];
+        var selected = imageSetsByKey[key];
         if (selected) {
-            var safeSrc = selected.file;
+            var currentLeftPage = 1;
+            var currentRightPage = 2;
+            var imageDir = selected.imageDir;
+            var imagePrefix = selected.imagePrefix;
+            var totalPages = selected.totalPages;
+
+            // Special page order for book1: 1, 4, 2, 3, 4, 5, 6, 7, 8, ...
+            function getPageSequence() {
+                if (key === 'book1') {
+                    var seq = [1, 4, 2, 3, 4];
+                    for (var i = 5; i <= 358; i++) {
+                        seq.push(i);
+                    }
+                    return seq;
+                } else {
+                    // Normal sequence for other books
+                    var seq = [];
+                    for (var i = 1; i <= totalPages; i++) {
+                        seq.push(i);
+                    }
+                    return seq;
+                }
+            }
+            
+            function loadPages(leftPage, rightPage) {
+                var pageSequence = getPageSequence();
+                
+                // Ensure pages are within bounds
+                if (leftPage < 1) leftPage = 1;
+                if (rightPage > pageSequence.length) rightPage = pageSequence.length;
+                if (rightPage < leftPage + 1) rightPage = leftPage + 1;
+                
+                currentLeftPage = leftPage;
+                currentRightPage = rightPage;
+                
+                var leftPageNum = pageSequence[leftPage - 1];
+                var rightPageNum = pageSequence[rightPage - 1];
+                
+                var leftImagePath = imageDir + encodeURIComponent(imagePrefix + pad(leftPageNum, 4) + '.jpg');
+                var rightImagePath = imageDir + encodeURIComponent(imagePrefix + pad(rightPageNum, 4) + '.jpg');
+                
+                document.getElementById('left-page-img').src = leftImagePath;
+                document.getElementById('right-page-img').src = rightImagePath;
+            }
+
+            function flipNext() {
+                var leftPage = document.getElementById('book-page-left');
+                var rightPage = document.getElementById('book-page-right');
+                var pageSequence = getPageSequence();
+                
+                leftPage.classList.add('page-flip-left');
+                rightPage.classList.add('page-flip-right');
+                
+                setTimeout(function() {
+                    leftPage.classList.remove('page-flip-left');
+                    rightPage.classList.remove('page-flip-right');
+                    
+                    // Переходим на следующий разворот - следующая пара
+                    var nextLeft = currentRightPage + 1;
+                    var nextRight = currentRightPage + 2;
+                    
+                    if (nextRight <= pageSequence.length) {
+                        loadPages(nextLeft, nextRight);
+                    }
+                }, 1000);
+            }
+
+            function flipPrev() {
+                var leftPage = document.getElementById('book-page-left');
+                var rightPage = document.getElementById('book-page-right');
+                var pageSequence = getPageSequence();
+                
+                leftPage.classList.add('page-flip-left');
+                rightPage.classList.add('page-flip-right');
+                
+                setTimeout(function() {
+                    leftPage.classList.remove('page-flip-left');
+                    rightPage.classList.remove('page-flip-right');
+                    
+                    // Переходим на предыдущий разворот - предыдущая пара
+                    var prevLeft = currentLeftPage - 2;
+                    var prevRight = currentLeftPage - 1;
+                    
+                    if (prevLeft >= 1) {
+                        loadPages(prevLeft, prevRight);
+                    } else {
+                        loadPages(1, 2);
+                    }
+                }, 1000);
+            }
+
+            function pad(num, size) {
+                var s = num + '';
+                while (s.length < size) s = '0' + s;
+                return s;
+            }
 
             var html =
-                '<div class="row gx-2 gy-3">' +
-                    '<div class="col-12">' +
-                        '<div class="pdf-viewer pdf-viewer-transparent">' +
-                            '<div class="pdf-wrapper">' +
-                                '<object data="' + safeSrc + '#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&view=FitH" type="application/pdf" width="100%" height="720px">' +
-                                    '<iframe id="pdf-frame" src="' + safeSrc + '#toolbar=0&navpanes=0&scrollbar=0&statusbar=0&view=FitH" width="100%" height="720"></iframe>' +
-                                    '<div class="info-message">Не удалось отобразить PDF. <a href="' + safeSrc + '" target="_blank" rel="noopener">Открыть в новой вкладке</a></div>' +
-                                '</object>' +
-                            '</div>' +
+                '<div class="book-container">' +
+                    '<div class="book-spread">' +
+                        '<div id="book-page-left" class="book-page book-page-left">' +
+                            '<img id="left-page-img" src="" alt="Left page">' +
+                        '</div>' +
+                        '<div id="book-page-right" class="book-page book-page-right">' +
+                            '<img id="right-page-img" src="" alt="Right page">' +
                         '</div>' +
                     '</div>' +
                 '</div>';
 
             contentEl.innerHTML = html;
-            
-            setTimeout(function() {
-                var iframe = document.getElementById('pdf-frame');
-                if (iframe) {
-                    iframe.style.overflow = 'hidden';
-                    try {
-                        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-                        if (iframeDoc) {
-                            var style = iframeDoc.createElement('style');
-                            style.textContent = 'body { overflow: hidden !important; } ::-webkit-scrollbar { display: none !important; }';
-                            iframeDoc.head.appendChild(style);
-                        }
-                    } catch (e) {
-                    }
+
+            document.getElementById('book-page-left').addEventListener('click', flipPrev);
+            document.getElementById('book-page-right').addEventListener('click', flipNext);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowLeft') {
+                    flipPrev();
+                } else if (e.key === 'ArrowRight') {
+                    flipNext();
                 }
-            }, 1000);
+            });
+
+            loadPages(1, 2);
             return;
         }
 
