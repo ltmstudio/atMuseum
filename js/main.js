@@ -1,6 +1,7 @@
 // Главный JavaScript файл
 
 document.addEventListener('DOMContentLoaded', function () {
+    initializeIntroScreen();
     initializeVideo();
     initializeNavigation();
     initializeHorseSlider();
@@ -398,5 +399,52 @@ function initializeIdleScreen() {
     // Запускаем таймер при загрузке страницы
     console.log('Экран-заглушка инициализирован, таймер запущен на 5 минут');
     resetIdleTimer();
+}
+
+// Экран-интро при первом открытии страницы
+function initializeIntroScreen() {
+    const introScreen = document.querySelector('.intro-screen');
+    if (!introScreen) return;
+    
+    const introVideo = introScreen.querySelector('video');
+    if (!introVideo) return;
+    
+    // Используем уникальное имя для каждой страницы
+    const pageKey = 'introShown_' + window.location.pathname;
+    let hasShown = sessionStorage.getItem(pageKey);
+    
+    // Если интро уже показывалось в этой сессии, скрываем сразу
+    if (hasShown === 'true') {
+        // Уже скрыто по умолчанию в HTML
+        return;
+    }
+    
+    // Первый раз - показываем интро
+    introScreen.classList.remove('hidden');
+    
+    // Отслеживание активности для скрытия интро
+    const activityEvents = ['mousedown', 'keydown', 'scroll', 'touchstart', 'click', 'pointerdown', 'wheel', 'mousemove'];
+    let hidden = false;
+    
+    function hideIntro() {
+        if (hidden) return;
+        hidden = true;
+        introScreen.classList.add('hidden');
+        sessionStorage.setItem(pageKey, 'true');
+        
+        // Удаляем обработчики событий
+        activityEvents.forEach(event => {
+            document.removeEventListener(event, hideIntro, { passive: true });
+        });
+    }
+    
+    // Добавляем обработчики с небольшой задержкой, чтобы избежать случайных событий при загрузке
+    setTimeout(() => {
+        activityEvents.forEach(event => {
+            document.addEventListener(event, hideIntro, { passive: true });
+        });
+    }, 100);
+    
+    console.log('Экран-интро инициализирован');
 }
 

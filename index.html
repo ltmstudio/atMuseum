@@ -12,6 +12,14 @@
 </head>
 
 <body>
+    <!-- Интро-экран при первом открытии главной страницы -->
+    <div class="intro-screen hidden">
+        <video autoplay muted playsinline preload="auto">
+            <source src="assets/videos/pano.mp4" type="video/mp4">
+            Ваш браузер не поддерживает видео.
+        </video>
+    </div>
+    
     <div class="video-container">
         <video id="mainVideo" autoplay muted loop playsinline>
             <source src="assets/videos/menu/menu.mp4" type="video/mp4">
