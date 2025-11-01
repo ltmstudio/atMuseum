@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initializeNavigation();
     initializeHorseSlider();
     initializeBedewlerDetails();
+    initializeIdleScreen();
 });
 
 function initializeVideo() {
@@ -295,5 +296,107 @@ function initializeBedewlerDetails() {
             titleShadow.textContent = slug;
             headerWrap.setAttribute('data-text', slug);
         });
+}
+
+// Экран-заглушка при бездействии (5 минут)
+function initializeIdleScreen() {
+    const IDLE_TIMEOUT = 5 * 60 * 1000; // 5 минут в миллисекундах
+    let idleTimer = null;
+    let idleScreen = null;
+    let idleVideo = null;
+
+    function createIdleScreen() {
+        if (idleScreen) return idleScreen;
+        
+        // Определяем путь к видео в зависимости от текущей страницы
+        const currentPath = window.location.pathname || window.location.href;
+        const isInPages = currentPath.includes('/pages/') || currentPath.includes('\\pages\\');
+        const videoPath = isInPages ? '../assets/videos/pano.mp4' : 'assets/videos/pano.mp4';
+        
+        idleScreen = document.createElement('div');
+        idleScreen.className = 'idle-screen';
+        idleScreen.innerHTML = `<video id="idleVideo" autoplay muted loop playsinline><source src="${videoPath}" type="video/mp4">Ваш браузер не поддерживает видео.</video>`;
+        document.body.appendChild(idleScreen);
+        idleVideo = document.getElementById('idleVideo');
+        
+        if (idleVideo) {
+            idleVideo.addEventListener('loadeddata', () => {
+                idleVideo.play().catch(err => console.log('Ошибка воспроизведения:', err));
+            });
+            idleVideo.addEventListener('error', (e) => {
+                console.log('Ошибка загрузки видео:', videoPath, e);
+            });
+            idleVideo.load(); // Принудительно загружаем видео
+        }
+        return idleScreen;
+    }
+
+    function showIdleScreen() {
+        const screen = createIdleScreen();
+        screen.classList.add('active');
+        if (idleVideo) {
+            idleVideo.currentTime = 0; // Сбрасываем на начало
+            idleVideo.play().catch(err => console.log('Ошибка воспроизведения при показе:', err));
+        }
+    }
+
+    function hideIdleScreen() {
+        if (idleScreen && idleScreen.classList.contains('active')) {
+            idleScreen.classList.remove('active');
+            if (idleVideo) {
+                idleVideo.pause();
+            }
+        }
+    }
+
+    let lastActivityTime = Date.now();
+    let throttled = false;
+
+    function resetIdleTimer() {
+        // Throttle для предотвращения слишком частых сбросов
+        const now = Date.now();
+        if (throttled && (now - lastActivityTime) < 1000) {
+            return; // Пропускаем, если сброс был меньше секунды назад
+        }
+        throttled = true;
+        setTimeout(() => { throttled = false; }, 1000);
+        
+        lastActivityTime = now;
+        
+        if (idleTimer) {
+            clearTimeout(idleTimer);
+        }
+        hideIdleScreen(); // скрываем экран при активности
+        
+        // Запускаем таймер заново
+        idleTimer = setTimeout(() => {
+            console.log('Показываем экран-заглушку после 5 минут бездействия');
+            showIdleScreen();
+        }, IDLE_TIMEOUT);
+        
+        console.log('Таймер бездействия сброшен, следующий показ через 5 минут');
+    }
+
+    // Отслеживание активности пользователя (убрали mousemove - он срабатывает слишком часто)
+    const activityEvents = ['mousedown', 'keydown', 'scroll', 'touchstart', 'click', 'pointerdown', 'wheel'];
+    
+    // Для mousemove делаем специальную обработку с большим throttle
+    let mouseMoveThrottle = null;
+    document.addEventListener('mousemove', () => {
+        if (!mouseMoveThrottle) {
+            mouseMoveThrottle = setTimeout(() => {
+                resetIdleTimer();
+                mouseMoveThrottle = null;
+            }, 2000); // Сбрасываем таймер только раз в 2 секунды при движении мыши
+        }
+    }, { passive: true });
+
+    activityEvents.forEach(event => {
+        document.addEventListener(event, resetIdleTimer, { passive: true });
+    });
+
+    // Запускаем таймер при загрузке страницы
+    console.log('Экран-заглушка инициализирован, таймер запущен на 5 минут');
+    resetIdleTimer();
 }
 
