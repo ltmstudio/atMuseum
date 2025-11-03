@@ -1,51 +1,62 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>At Muzey - Taryhy</title>
-    
+
     <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
     <div class="video-container">
         <video id="mainVideo" autoplay muted loop playsinline>
             <source src="../assets/videos/taryhy/taryhy_menu.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
-        <div class="navigation-container navigation-container--taryhy">
+        <div class="navigation-container-btn">
             <div class="container-fluid">
-                <a href="../index.html" class="back-btn">← Назад на главную</a>
-                <div class="col-12 row navigation-buttons-taryhy gx-0">
-                    <div class="col-6">
-                        <a href="./taryhyinfo.html?key=ady" class="nav-btn">
-                            Adyň gelip çykyşy
-                        </a>
-                    </div>
-                    <div class="col-6">
-                        <a href="./taryhyinfo.html?key=kopeldis" class="nav-btn">
-                            Köpeldiş
-                        </a>
-                    </div>
+                <a href="javascript:history.back()" class="back-btn" aria-label="Назад">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="container-fluid">
+
+            <div class="col-12 row navigation-buttons-taryhy gx-0">
+                <div class="col-6">
+                    <a href="./taryhyinfo.html?key=ady" class="nav-btn">
+                        Adyň gelip çykyşy
+                    </a>
                 </div>
-                <div class="col-12 row navigation-buttons-taryhy gx-0">
-                    <div class="col-6">
-                        <a href="./taryhyinfo.html?key=tohum" class="nav-btn">
-                            Tohumyň aýratynlyklary
-                        </a>
-                    </div>
-                    <div class="col-6">
-                        <a href="./taryhyinfo.html?key=ulanylysh" class="nav-btn">
-                            Ulanylyşy
-                        </a>
-                    </div>
+                <div class="col-6">
+                    <a href="./taryhyinfo.html?key=kopeldis" class="nav-btn">
+                        Köpeldiş
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 row navigation-buttons-taryhy gx-0">
+                <div class="col-6">
+                    <a href="./taryhyinfo.html?key=tohum" class="nav-btn">
+                        Tohumyň aýratynlyklary
+                    </a>
+                </div>
+                <div class="col-6">
+                    <a href="./taryhyinfo.html?key=ulanylysh" class="nav-btn">
+                        Ulanylyşy
+                    </a>
                 </div>
             </div>
         </div>
+
     </div>
 
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
 </body>
+
 </html>

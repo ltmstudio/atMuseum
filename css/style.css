@@ -261,7 +261,31 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
+.navigation-container-btn {
+    position: fixed;
+    z-index: 2;
+    width: 100%;
+    bottom: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
+.navigation-buttons-home {
+    padding-bottom: 5%;
+}
+.navigation-buttons-home-kitaplar {
+    padding-bottom: 6%;
+}
+
+.navigation-buttons-kitaplar {
+    padding-bottom: 5%;
+    column-gap: 2%;
+}
+
+.navigation-buttons-taryhy {
+    padding-bottom: 5%;
+    column-gap: 2%;
+}
 /* Taryhy page: place buttons a bit lower */
 .navigation-container--taryhy {
     bottom: 3%;
@@ -282,6 +306,10 @@ body {
     box-sizing: border-box;
     overflow-y: auto;
     overflow-x: hidden;
+}
+.cont {
+    padding-left: 10vw;
+    padding-right: 10vw;
 }
 
 .info-column {
@@ -400,33 +428,34 @@ body {
     position: relative !important;
     transform: translate(-110px, 10px) !important;
 }
-
 .nav-btn {
-    display: flex;
+    display: block;
     width: 100%;
     /* background: rgba(255, 255, 255, 0.9);
     border: 1px solid #000; */
     position: relative;
     z-index: 2;
     min-height: 10vh;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: clamp(22px, 3vw, 42px);
-    line-height: 1.4;
-    color: #fff;
-    text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
-    text-decoration: none;
 }
 
 .back-btn {
-    display: inline-block;
-    padding: 0.75rem 1.5rem;
-    background: #007bff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
     color: white;
     text-decoration: none;
     position: relative;
     z-index: 3;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .back-btn:hover {

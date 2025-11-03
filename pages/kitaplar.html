@@ -1,22 +1,64 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>At MuzeyKitaplar</title>
-    
+
     <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
     <div class="video-container">
         <video id="mainVideo" autoplay muted loop playsinline>
-            <source src="../assets/videos/kitaplar/kitaplar_menu.mp4" type="video/mp4">            
+            <source src="../assets/videos/kitaplar/kitaplar_menu.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
-        <div class="navigation-container navigation-container--taryhy">
+        <div class="navigation-container-btn">
             <div class="container-fluid">
-                <a href="../index.html" class="back-btn">← Назад на главную</a>
+                <a href="javascript:history.back()" class="back-btn" aria-label="Назад">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <div class="navigation-container">
+            <div class="cont">
+                <div class="col-12 row navigation-buttons-home-kitaplar">
+                    <div class="col-6">
+                        <a href="./kitaplarinfo.html?key=book1" class="nav-btn-sygyrlar-2">
+                            Atda Wepa-da bar, Sapada
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="./kitaplarinfo.html?key=book2" class="nav-btn-sygyrlar-2">
+                            Ganatly Bedew
+                        </a>
+                    </div>
+                    
+
+                </div>
+                <div class="col-12 row gx-0 px-5">
+                    <div class="col-6 ">
+                        <a href="./kitaplarinfo.html?key=book3" class="nav-btn-sygyrlar-2">
+                            Bedew Galkynyşyň Ganaty
+                        </a>
+                    </div>
+                    <div class="col-6">
+                        <a href="./kitaplarinfo.html?key=book4" class="nav-btn-sygyrlar-2">
+                            Ahalteke Bedewi - Biziň Buýsanjymyz we Şöhratymyz bilen
+                        </a>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+        <!-- <div class="navigation-container navigation-container--taryhy">
+            <div class="container-fluid">
+
                 <div class="col-12 row navigation-buttons-kitaplar gx-0">
                     <div class="col-6">
                         <a href="./kitaplarinfo.html?key=book1" class="nav-btn">
@@ -42,10 +84,11 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
 </body>
+
 </html>

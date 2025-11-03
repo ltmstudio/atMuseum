@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kitaplar Info - Музей</title>
+    <title>At Muzey - Kitaplar</title>
     <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="../css/style.css">
     
@@ -14,10 +14,18 @@
             <source src="../assets/videos/kitaplar/kitaplar_fon.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
-
-        <div class="navigation-container navigation-container--info">
+        <div class="navigation-container-btn">
             <div class="container-fluid">
-                <a href="./kitaplar.html" class="back-btn">← Назад</a>
+                <a href="javascript:history.back()" class="back-btn" aria-label="Назад">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 18l-6-6 6-6"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+        <!-- <div class="navigation-container navigation-container--info"> -->
+            <div class="container-fluid">
+      
 
                 <div class="info-column">
                     <div class="info-content">
@@ -26,7 +34,7 @@
                 </div>
 
             </div>
-        </div>
+        <!-- </div> -->
     </div>
 
     <script src="../js/bootstrap.min.js"></script>
