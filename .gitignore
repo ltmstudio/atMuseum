@@ -26,6 +26,9 @@ assets/**/*.svg
 *.exe
 *.iso
 
+# Папка с PDF и изображениями книг
+pdf/
+
 # Кэш и временные файлы
 node_modules/
 dist/

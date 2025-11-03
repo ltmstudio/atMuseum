@@ -1,3 +1,45 @@
+:root {
+    /* Основной шрифт страницы */
+    --font-family-base: 'Times New Roman', Times, serif;
+    --font-family-serif: 'Times New Roman', Times, serif;
+
+    /* Стиль текста для детальных страниц */
+    --text-content-font-size: clamp(16px, 2vw, 31px);
+    --text-content-line-height: 1.5;
+    --text-content-color: #fff;
+    --text-content-text-align: justify;
+    --text-content-text-indent: 20px;
+    --text-content-margin-bottom: 20px;
+    --text-content-text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
+
+    /* Заголовки слайдов в карусели */
+    --caption-font-weight: 700;
+    --caption-font-size: clamp(22px, 5vw, 56px);
+    --caption-letter-spacing: 0.5px;
+    --caption-color: #fff;
+
+    /* Заголовки на странице деталей */
+    --details-header-font-weight: 700;
+    --details-header-font-size: clamp(56px, 10vw, 140px);
+    --details-header-letter-spacing: .03em;
+    --details-header-line-height: 1;
+
+    /* Заголовки details */
+    --details-title-font-weight: 800;
+    --details-title-letter-spacing: .5px;
+
+    /* Карточки details */
+    --details-card-title-font-size: clamp(18px, 2.2vw, 26px);
+    --details-card-text-line-height: 1.4;
+
+    /* Тексты стихов */
+    --poem-font-family: 'Times New Roman', Times, serif;
+    --poem-font-size: clamp(0.95rem, 2vw, 2rem);
+    --poem-line-height: 1.55;
+    --nav-btn-sygyrlar-color: rgba(255, 210, 40, 1);
+    --nav-btn-sygyrlar-font-size: clamp(18px, 2.2vw, 26px);
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -362,8 +404,8 @@ body {
 .nav-btn {
     display: flex;
     width: 100%;
-    background: transparent !important;
-    border: none !important;
+    /* background: rgba(255, 255, 255, 0.9);
+    border: 1px solid #000; */
     position: relative;
     z-index: 2;
     min-height: 10vh;
@@ -387,10 +429,97 @@ body {
     z-index: 3;
 }
 
-.taryhy-text-content {
-    font-size: clamp(22px, 3vw, 42px);
-    line-height: 1.4;
-    color: #fff;
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: scale(1.05);
+}
+
+.back-btn:active {
+    transform: scale(0.95);
+}
+
+.back-btn svg {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ===== Экран-заглушка при бездействии ===== */
+.idle-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9999;
+    background: #000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.idle-screen.active {
+    display: block;
+    opacity: 1;
+}
+
+.idle-screen video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===== Экран-интро при первом открытии главной страницы ===== */
+.intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9998;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+}
+
+.intro-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.intro-screen video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-body-poem{
+    position: relative;  
+    z-index: 10; 
+    width: 80vh; height: 80vh; 
+    background-color: rgba(255, 255, 255, 0); 
+    left:0;
+    margin-left: 1.5%;
+}
+.poem-title{ 
+    background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.card-text-poem{
+    white-space:pre-wrap;
+    font-size: var(--poem-font-size);
+    line-height: var(--poem-line-height);
+    word-break:break-word;
+    hyphens:auto;
     text-align: center;
     text-indent: 0;
     margin-bottom: 20px;
@@ -405,4 +534,42 @@ body {
     line-height: 1.5;
     word-break: break-word;
     overflow-wrap: anywhere;
+    /* color: rgba(255, 210, 40, 1); */
+    background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-btn-sygyrlar {
+    display: flex;
+    width: 100%;
+    background: rgba(255, 255, 255, 0);
+    border: 0px solid #000;
+    position: relative;
+    z-index: 2;
+    min-height: 10vh;
+    color: var(--nav-btn-sygyrlar-color);
+    text-align: center;
+    justify-content: center; /* центр по горизонтали */
+    align-items: center;    
+    font-size: var(--nav-btn-sygyrlar-font-size) ;
+    font-family: var(--font-family-base);
+    text-decoration: none;
+    padding-bottom: 2%;
+}
+.nav-btn-sygyrlar-2 {
+    display: flex;
+    width: 100%;
+    background: rgba(255, 255, 255, 0);
+    border: 0px solid #000;
+    position: relative;
+    z-index: 2;
+    min-height: 10vh;
+    color: var(--nav-btn-sygyrlar-color);
+    text-align: center;
+    justify-content: center; /* центр по горизонтали */
+    align-items: center;    
+    font-size: var(--nav-btn-sygyrlar-font-size) ;
+    font-family: var(--font-family-base);
+    text-decoration: none;
+    padding-top: 2%;
 }

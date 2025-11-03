@@ -32,11 +32,11 @@ Garşy alar, alar göwni açygy.
 Göter Dünýäm, Özüň bilen uçaly,
 Sen ak atda, Sen gyr atda, ganatda.
 
-Gözel Şagulyýewa,
+Gözel ŞAGULYÝEWA,
 Türkmenistanyň Gahrymany.`
     },
     2: {
-      title: "AKHANÝN AK ÝOLY DOWAM, ARKADAG!",
+      title: "AKHANYŇ AK ÝOLY DOWAM, ARKADAG!",
       text: `
 Her bir üstünligňi belleýändirin,
 Aýry däldir, Akhan, senden ykbalym.
@@ -78,7 +78,7 @@ Arkadagly günler bagtymyzadyr.
 Ser salýan sährama, gül gujak-gujak,
 Alnymda Gün dogýar, ýagtymyzadyr.
 
-Gözel Şagulyýewa,
+Gözel ŞAGULYÝEWA,
 Türkmenistanyň Gahrymany.`
     },
     3: {
@@ -114,7 +114,7 @@ Keşbi ajap beýan bolup, eserlerde hem sungatda,
 Sarpalanyp, sylaglanyp, dünýäge ýaň salan, bedew,
 Mertebesi, şöhrat-şany Arş aglaga galan, bedew!
 
-Ogultäç Oraztaganowa`
+Ogultäç ORAZTAGANOWA`
     },
     4: {
       title: "DÖWLET GUŞY",
