@@ -40,11 +40,50 @@
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
     <style>
+        /* Улучшенное позиционирование контейнеров */
+        .content {
+            position: fixed;
+            top: 10vh;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-column {
+            width: 100%;
+            max-width: 1600px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .info-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #info-content {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
         .book-container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100%;
+            width: 100%;
             perspective: 2000px;
             position: relative;
         }
@@ -53,13 +92,20 @@
             display: flex;
             gap: 0;
             position: relative;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
         }
         
         .book-page {
             position: relative;
-            width: 55vw;
+            width: 50vw;
             max-width: 700px;
-            height: 85vh;
+            min-width: 300px;
+            height: 90vh;
+            max-height: 1100px;
             cursor: pointer;
             overflow: hidden;
             contain: layout style paint; /* Оптимизация изоляции перерисовки */
@@ -77,6 +123,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
+            object-position: center center;
             position: absolute;
             top: 0;
             left: 0;
@@ -254,6 +301,85 @@
                 transform-origin: left center;
                 transform: perspective(1500px) rotateY(-180deg) scale3d(0.9, 0.9, 1);
                 opacity: 0;
+            }
+        }
+        
+        /* Увеличение размера на больших экранах */
+        @media (min-width: 1400px) {
+            .book-page {
+                width: 52vw;
+                max-width: 900px;
+                height: 92vh;
+                max-height: 1300px;
+            }
+            
+            .book-spread {
+                max-width: 2000px;
+            }
+            
+            .info-column {
+                max-width: 2000px;
+            }
+        }
+        
+        @media (min-width: 1920px) {
+            .book-page {
+                width: 55vw;
+                max-width: 1100px;
+                height: 92vh;
+                max-height: 1400px;
+            }
+            
+            .book-spread {
+                max-width: 2400px;
+            }
+            
+            .info-column {
+                max-width: 2400px;
+            }
+        }
+        
+        @media (min-width: 2560px) {
+            .book-page {
+                width: 56vw;
+                max-width: 1300px;
+                height: 92vh;
+                max-height: 1600px;
+            }
+            
+            .book-spread {
+                max-width: 2800px;
+            }
+            
+            .info-column {
+                max-width: 2800px;
+            }
+        }
+        
+        /* Адаптивность для маленьких экранов */
+        @media (max-width: 768px) {
+            .book-page {
+                width: 48vw;
+                max-width: 100%;
+                height: 80vh;
+            }
+            
+            .book-spread {
+                flex-direction: column;
+                gap: 2vh;
+            }
+            
+            .book-page-left,
+            .book-page-right {
+                width: 90vw;
+                max-width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .book-page {
+                width: 95vw;
+                height: 75vh;
             }
         }
     </style>
