@@ -630,6 +630,80 @@ body {
     text-decoration: none;
     padding-top: 2%;
 }
+.navigation-container--taryhy .nav-btn-sygyrlar,
+.navigation-container--taryhy .nav-btn-sygyrlar-2 {
+    text-transform: uppercase;
+    font-size: clamp(20px, 2.6vw, 36px);
+}
+.navigation-container--taryhy .nav-btn-sygyrlar {
+    letter-spacing: 0.03em;
+    transform: translateY(-2px);
+    padding-bottom: 0.5%;
+}
+.navigation-container--taryhy .nav-btn-sygyrlar-2 {
+    letter-spacing: 0.03em;
+    transform: translateY(2px);
+    padding-top: 0.5%;
+}
+/* Только для длинного заголовка (3-я кнопка: key=tohum) — немного меньше шрифт и плотнее трекинг */
+.navigation-container--taryhy a[href*="key=tohum"] {
+    font-size: clamp(18px, 2.4vw, 34px);
+    letter-spacing: 0.02em;
+    padding-left: 0%;
+    padding-right: 2%;
+    transform: translateX(-4px);
+}
+.navigation-container--kitaplar .nav-btn-sygyrlar,
+.navigation-container--kitaplar .nav-btn-sygyrlar-2 {
+    text-transform: uppercase;
+    font-size: clamp(20px, 2.6vw, 36px);
+}
+.navigation-container--kitaplar .nav-btn-sygyrlar {
+    letter-spacing: 0.03em;
+    transform: translate(45px, 0px);
+    padding-bottom: 0.5%;
+    min-height: 9.5vh;
+}
+/* Вторая кнопка в первом ряду (book2) - сдвигаем влево */
+.navigation-container--kitaplar a[href*="key=book2"] {
+    transform: translate(-70px, 0px);
+}
+.navigation-container--kitaplar .nav-btn-sygyrlar-2 {
+    letter-spacing: 0.03em;
+    transform: translate(0px, 0px);
+    padding-top: 0.5%;
+    min-height: 9.5vh;
+}
+/* Второй ряд кнопок - не кликабельны */
+.navigation-container--kitaplar .row:last-of-type .nav-btn-sygyrlar-2 {
+    pointer-events: none;
+    cursor: default;
+}
+/* Третья кнопка (book3) - выравниваем как первый текст */
+.navigation-container--kitaplar .row:last-of-type .col-6:first-of-type .nav-btn-sygyrlar-2 {
+    transform: translate(50px, 15px);
+}
+/* Для длинного заголовка (4-я кнопка: key=book4) — уменьшаем шрифт и центрируем */
+.navigation-container--kitaplar .row:last-of-type .col-6:last-of-type .nav-btn-sygyrlar-2 {
+    font-size: clamp(12px, 1.5vw, 22px);
+    letter-spacing: 0.005em;
+    padding-left: 5%;
+    padding-right: 5%;
+    line-height: 1.4;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    hyphens: auto;
+    transform: translate(-70px, 10px);
+    pointer-events: none;
+    cursor: default;
+}
 .content {
     position: fixed;
     top: 10vh;
