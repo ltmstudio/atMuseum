@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,29 @@
     <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
     <link rel="stylesheet" href="../css/style.css">
 </head>
+
 <body>
     <div class="video-container">
         <video id="mainVideo" autoplay muted loop playsinline>
             <source src="../assets/videos/taryhy/taryhy_fon.mp4" type="video/mp4">
             Ваш браузер не поддерживает видео.
         </video>
-
-        <div class="navigation-container navigation-container--info">
+        <div class="navigation-container-btn">
+            <div class="container-fluid">
+                <a href="javascript:history.back()" class="back-btn" aria-label="Назад на главную"><svg
+                        viewBox="0 0 24 24">
+                        <path d="M15 18l-6-6 6-6" />
+                    </svg></a>
+            </div>
+        </div>
+        <div class="container-poem d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="card-body flex-grow-0 flex-shrink-0 card-body-poem">
+                <div class="nav-btn info-content">
+                    <div id="info-content"></div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="navigation-container navigation-container--info">
             <div class="container-fluid">
                 <a href="javascript:history.back()" class="back-btn">← Назад</a>
 
@@ -25,28 +41,28 @@
                 </div>
 
             </div>
-        </div>
+        </div> -->
     </div>
 
     <script src="../js/bootstrap.min.js"></script>
     <script src="../js/main.js"></script>
     <script>
-    (function() {
-        var params = new URLSearchParams(window.location.search);
-        var key = params.get('key') || '';
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var key = params.get('key') || '';
 
-        var contentEl = document.getElementById('info-content');
+            var contentEl = document.getElementById('info-content');
 
-        // Контент по ключам. Для локальных .txt из сети браузер читать не сможет,
-        // поэтому текст вставлен здесь. Позже можно заменить на запрос с сервера.
-        var texts = {
-            ady: {
-                title: 'Adyň gelip çykyşy',
-                html: 'Bu tohumyň häzirki ady, bu atlaryň arassa görnüşinde saklanan ýeri bilen baglanyşyklydyr. Bu at Kopet-Dag daglarynyň demirgazyk etekleri boýunça Bahardenden Artyga çenli uzalyp gidýär we bu ýerde türkmen Teke (ýa-da Tekin) taýpasy ýaşaýardy. Şeýlelik bilen, sözüň doly manysynda "Ahal-Teke" Ahal oazisinden Teke taýpasynyň aty diýmekdir. Bu tohum Russiýa imperiýasynda Türkmenistanyň basylyp alynmagyndan soň we esasanam Sowet ýyllarynda şu at bilen tanaldy. Şonuň ýaly-da, ýewropalylar XX asyrda tanyş bolan bu tohumyň ady başga dillerde hem eşidilýär, mysal üçin: iňlis Ahal-Teke, fransuz Ahal-Teke, golland Ahal-Teke, nemes Ahal Tekkiner, şwed Ahaltekeer we ş.m.'
-            },
-            ulanylysh: {
-                title: 'Ulanylyşy',
-                html: `Ahal-Teke aty, çapuw tohumy hökmünde, köp atçylyk sportuna degişli bolan ägirt uly mümkinçiliklere eýedir. Ahal-Teke at çapuwlary SSSR-iň döredilmegi bilen resmileşdirildi. Arassa ganly at çapuwlarynda umumy kabul edilen ähli nusgawy baýraklar we ýaş we jyns kategoriýalary ahal-teke at çapuwlary üçin döredildi. Bularyň arasynda, ilki bilen, at çapuw meýdançalarynda synagdan geçirilen ähli atlar üçin esasy baýrak bolan Derbi we diňe ady üýtgeýän, aralyk bolsa Angliýada işlenip düzülen nusgawy baýraklaryň hemmesi bolan däp bolan baýraklar bar.
+            // Контент по ключам. Для локальных .txt из сети браузер читать не сможет,
+            // поэтому текст вставлен здесь. Позже можно заменить на запрос с сервера.
+            var texts = {
+                ady: {
+                    title: 'Adyň gelip çykyşy',
+                    html: 'Bu tohumyň häzirki ady, bu atlaryň arassa görnüşinde saklanan ýeri bilen baglanyşyklydyr. Bu at Kopet-Dag daglarynyň demirgazyk etekleri boýunça Bahardenden Artyga çenli uzalyp gidýär we bu ýerde türkmen Teke (ýa-da Tekin) taýpasy ýaşaýardy. Şeýlelik bilen, sözüň doly manysynda "Ahal-Teke" Ahal oazisinden Teke taýpasynyň aty diýmekdir. Bu tohum Russiýa imperiýasynda Türkmenistanyň basylyp alynmagyndan soň we esasanam Sowet ýyllarynda şu at bilen tanaldy. Şonuň ýaly-da, ýewropalylar XX asyrda tanyş bolan bu tohumyň ady başga dillerde hem eşidilýär, mysal üçin: iňlis Ahal-Teke, fransuz Ahal-Teke, golland Ahal-Teke, nemes Ahal Tekkiner, şwed Ahaltekeer we ş.m.'
+                },
+                ulanylysh: {
+                    title: 'Ulanylyşy',
+                    html: `Ahal-Teke aty, çapuw tohumy hökmünde, köp atçylyk sportuna degişli bolan ägirt uly mümkinçiliklere eýedir. Ahal-Teke at çapuwlary SSSR-iň döredilmegi bilen resmileşdirildi. Arassa ganly at çapuwlarynda umumy kabul edilen ähli nusgawy baýraklar we ýaş we jyns kategoriýalary ahal-teke at çapuwlary üçin döredildi. Bularyň arasynda, ilki bilen, at çapuw meýdançalarynda synagdan geçirilen ähli atlar üçin esasy baýrak bolan Derbi we diňe ady üýtgeýän, aralyk bolsa Angliýada işlenip düzülen nusgawy baýraklaryň hemmesi bolan däp bolan baýraklar bar.
 
 Ahal-teke atlary häzir çapuwlarda, şeýle hem rus we dünýä çempionatlarynyň sergi zallarynda, şeýle hem Moskwadaky Equiros halkara atçylyk sergisi ýaly atçylyk bilen baglanyşykly uly çärelerde görkezilýär. "Equiros" şäherinde Wladimir Şamborant atçylyk fermasy tarapyndan döredilen her ýylky Dünýä Kubogy sergisiniň çempionaty geçirilýär. Dünýä Kubogy ahal-teke tohumynyň iň uly görkeziliş çäresidir.
 
@@ -59,10 +75,10 @@ Ahal-Teke atlary şeýle hem klassiki atçylyk sportunda ajaýyp zehin görkezý
 Arabyň ogly, gara aýgyr Absent (Arap - Baccarat 1952), ahal-teke tohumyna bütin dünýäde şöhrat getirdi. 1960-njy ýylda Rim Olimpiýa oýunlarynda Absent we onuň çapyksuwary Sergeý Filatow Olimpiýa çempionlary boldular. Absent soňra Ýewropa çempiony hem boldy we SSSR-iň çempionatlarynda birnäçe gezek ýeňiş gazandy. 1964-nji ýyldaky Tokio Olimpiýa oýunlarynda Absent bürünç medal gazandy, Meksikadaky Olimpiýa oýunlarynda bolsa Sowet topary üçin kümüş medaly paýlaşdy. Bu ajaýyp atyň hatyrasyna Gazagystanyň Lugovskoý atçylyk zawodynyň çäginde ýadygärlik guruldy.
 
 Häzirki wagtda ahal-teke atlary nusgawy atçylyk sportunda giňden ulanylýar, esasan hem geýimçilige aýratyn üns berilýär.`
-            },
-            tohum: {
-                title: 'Tohumyň aýratynlyklary',
-                html: `Bu tohuma türkmen durmuş ýörelgesi täsir etdi. Iýmitlendirmegiň, däp bolan tälim bermegiň we ulanmagyň aýratynlyklary - çalt, gysga aralykly ýaryşlaryň we uzak, agyr ýollaryň utgaşmasy - bularyň hemmesi tohumyň daşky we içki aýratynlyklaryna täsir etdi: atlar aryk we gurak, artykmaç ýagsyz, adatdan daşary çydamly we iýmitiň mukdary (ýa-da hili) babatda talapsyz boldy.
+                },
+                tohum: {
+                    title: 'Tohumyň aýratynlyklary',
+                    html: `Bu tohuma türkmen durmuş ýörelgesi täsir etdi. Iýmitlendirmegiň, däp bolan tälim bermegiň we ulanmagyň aýratynlyklary - çalt, gysga aralykly ýaryşlaryň we uzak, agyr ýollaryň utgaşmasy - bularyň hemmesi tohumyň daşky we içki aýratynlyklaryna täsir etdi: atlar aryk we gurak, artykmaç ýagsyz, adatdan daşary çydamly we iýmitiň mukdary (ýa-da hili) babatda talapsyz boldy.
 
 Ahal-teke aty münmek üçin ajaýyp, hereketleri çeýe we çapyksuwar üçin ýadadyjy däl. Şeýle-de bolsa, berklik ýa-da gözegçiliksizlik Ahal-teke aty üçin beýleki köp atlardan has köp zyýan ýetirýär. Ähli arassa ganly atlar ýaly, Ahal-teke tohumy hem her çapyksuwaryň talaplaryny kanagatlandyrýan "sport enjamlary" roluna laýyk gelmeýär; ol aýratyn çemeleşme talapýär. Şonuň üçin has flegmatik we ygtybarly ýarym ganly atlara öwrenişen köp türgenler Ahal-teke atlary bilen işlemek kyn hasaplaýarlar. Şeýle-de bolsa, akylly we sabyrly çapyksuwaryň elinde Ahal-teke ýokary sport netijelerine ýetmäge ukyplydyr.
 
@@ -73,31 +89,30 @@ Inçe, inçe derisine we örän gysga ýüňüne garamazdan, ahal-teke aty dürl
 Tohumyň daşky ejizligi ajaýyp çydamlylygy gizleýär. Taryhçylar söweşde ýaralanan ahal-teke atynyň iki uly adamy arkasynda göterip, batgalyk çägede olar bilen bile ýöremeginiň mysallaryny gürrüň berýärler. Häzirki zaman taryhynda ahal-teke atlary birnäçe gezek rekord goýan köp günlük ýörişleri we çydamlylyk ýaryşlaryny tamamladylar. Iň meşhur ahal-teke çydamlylyk ýaryşy 1935-nji ýylda Aşgabatdan Moskwa çenli geçirildi. Bu aralyk 84 günde geçildi, çapyksuwarlar Garagum çölüni üç günde iýmek, içmek ýa-da uklamak üçin durman geçdiler. Ähli atlar sagdyn galdylar we Moskwa ýetdiler. Şol ýaryşyň ýeňijisi Tarlan atly aýgyr boldy.
 
 Hakyky çöl atlary ýaly, ahal-teke atlary hem suwsuzlyga gowy çydaýar.`
-            },
-            kopeldis: {
-                title: 'Köpeldiş',
-                html: `Bu tohum, esasan, XIX asyryň meşhur çapuw aty Boýnoudan gelip çykýan ugurlardan ösdürilip ýetişdirilýär: Melekuş (Boýnou - Oraz Niýaz Karadyşly 1909; 1956-njy ýylda N. S. Hruşýow tarapyndan II Ýelizaweta sowgat hökmünde sowgat berildi), Ewerdi Teleke we Sapar Han atly aýgyrlar. Häzirki zaman ahal-teke tohumyndaky beýleki esasy genealogiki ugurlar Gelişikli (Fakir Sulu - Gezel 1949), Arab, Kaplan, Kir Sakar (Algyr - Aýdan 1936), Elýa (Tugurbaý - Elkab 1932) we Fakirpelwan (Fakir Sulu - Egoza 1951).
+                },
+                kopeldis: {
+                    title: 'Köpeldiş',
+                    html: `Bu tohum, esasan, XIX asyryň meşhur çapuw aty Boýnoudan gelip çykýan ugurlardan ösdürilip ýetişdirilýär: Melekuş (Boýnou - Oraz Niýaz Karadyşly 1909; 1956-njy ýylda N. S. Hruşýow tarapyndan II Ýelizaweta sowgat hökmünde sowgat berildi), Ewerdi Teleke we Sapar Han atly aýgyrlar. Häzirki zaman ahal-teke tohumyndaky beýleki esasy genealogiki ugurlar Gelişikli (Fakir Sulu - Gezel 1949), Arab, Kaplan, Kir Sakar (Algyr - Aýdan 1936), Elýa (Tugurbaý - Elkab 1932) we Fakirpelwan (Fakir Sulu - Egoza 1951).
 
 Ahal-teke atlary häzirki döwürde çapuwlarda we dünýäniň dürli ýurtlarynda geçirilýän sergilerde hem görkezilýär, şol sanda Moskwadaky Equiros halkara atçylyk sergisinde-de. Bu tohum häzirki wagtda dünýäniň köp ýurtlarynda ösdürilip ýetişdirilýär.`
+                }
+            };
+
+            var data = texts[key];
+            if (!data) {
+                data = { title: '', html: 'Выберите раздел на предыдущей странице.' };
             }
-        };
 
-        var data = texts[key];
-        if (!data) {
-            data = { title: '', html: 'Выберите раздел на предыдущей странице.' };
-        }
+            // Разбиваем текст на параграфы для стихотворного эффекта
+            var htmlContent = data.html;
+            // Заменяем двойные переносы строк на параграфы
+            htmlContent = htmlContent.split(/\n\n+/).map(function (paragraph) {
+                return '<p>' + paragraph.trim().replace(/\n/g, ' ') + '</p>';
+            }).join('\n');
 
-        // Разбиваем текст на параграфы для стихотворного эффекта
-        var htmlContent = data.html;
-        // Заменяем двойные переносы строк на параграфы
-        htmlContent = htmlContent.split(/\n\n+/).map(function(paragraph) {
-            return '<p>' + paragraph.trim().replace(/\n/g, ' ') + '</p>';
-        }).join('\n');
-        
-        contentEl.innerHTML = '<div class="taryhy-text-content">' + htmlContent + '</div>';
-    })();
+            contentEl.innerHTML = '<div class="taryhy-text-content">' + htmlContent + '</div>';
+        })();
     </script>
 </body>
+
 </html>
-
-
