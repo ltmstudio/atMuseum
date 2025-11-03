@@ -65,6 +65,15 @@ function initializeHorseSlider() {
     let autoTimer = null;
     let suppressClickUntil = 0; // защита от клика сразу после свайпа
 
+    // Восстанавливаем позицию слайда при возврате со страницы деталей
+    const savedIndex = sessionStorage.getItem('bedewler_last_slide_index');
+    if (savedIndex !== null) {
+        index = parseInt(savedIndex, 10);
+        if (isNaN(index) || index < 0 || index >= N) {
+            index = 0;
+        }
+    }
+
     function layout() {
         items.forEach((el, i) => {
             const angle = step * i;
@@ -134,6 +143,8 @@ function initializeHorseSlider() {
             const img = centerItem.querySelector('img');
             const id = img && img.alt ? encodeURIComponent(img.alt.trim()) : '';
             console.log('Navigating to bedewler-details.html with id:', id);
+            // Сохраняем текущий слайд для возврата
+            sessionStorage.setItem('bedewler_last_slide_index', index);
             window.location.href = `bedewler-details.html?id=${id}`;
         });
     });
