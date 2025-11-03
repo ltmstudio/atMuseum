@@ -129,8 +129,11 @@ function initializeHorseSlider() {
     items.forEach((el) => {
         el.addEventListener('click', () => {
             if (Date.now() < suppressClickUntil) return; // игнорировать после свайпа
-            const img = el.querySelector('img');
+            // Используем центральный элемент вместо кликнутого
+            const centerItem = items[index];
+            const img = centerItem.querySelector('img');
             const id = img && img.alt ? encodeURIComponent(img.alt.trim()) : '';
+            console.log('Navigating to bedewler-details.html with id:', id);
             window.location.href = `bedewler-details.html?id=${id}`;
         });
     });
@@ -260,10 +263,12 @@ function initializeBedewlerDetails() {
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id') || 'ÝANARDAG';
     const slug = id.trim();
+    console.log('Loading bedewler details for id:', id, 'slug:', slug);
     const url = `../content/bedewler/${encodeURIComponent(slug)}.json`;
 
     // Локальный словарь вынесен в отдельный файл content/bedewler/content.js
     const local = (window.BEDEWLER_CONTENT && window.BEDEWLER_CONTENT[slug]) || null;
+    console.log('Found local content:', local ? 'YES' : 'NO');
     if (local) {
         titleFill.textContent = local.title;
         titleShadow.textContent = local.title;
