@@ -47,6 +47,8 @@
     --back-button-font-size: clamp(24px, 3.5vw, 38px);
     /* Размер шрифта для навигационных кнопок в контейнерах */
     --nav-btn-text-font-size: clamp(18px, 2.2vw, 26px);
+    /* Размер шрифта для длинных кнопок (меньший размер) */
+    --nav-btn-small-font-size: clamp(1.5rem, 2vw, 1.5rem);
     --poem-color:  rgba(255, 210, 40, 1);
     
     /* Taryhy page buttons layout */
@@ -406,6 +408,7 @@ body {
     z-index: 2;
     width: 100%;
     bottom: 14%;
+    /* bottom: 10.5%; */
     left: 50%;
     transform: translateX(-50%);
 }
@@ -878,6 +881,16 @@ body {
     display: flex;
     gap: var(--taryhy-row-gap);
 }
+.content-container-kitaplar{
+    width: 100%;
+    padding-left: 13.5%;
+    padding-right: 14.5%;
+}
+.content-container-kitaplar .row {
+    width: 100%;
+    display: flex;
+    gap: var(--taryhy-row-gap);
+}
 .nav-btn-taryhy {
     padding-left: 0;
     padding-right: 0;
@@ -891,4 +904,8 @@ body {
 }
 .content-container-taryhy .row:first-child {
     margin-bottom: 7%;
+}
+/* Меньший размер шрифта для последней кнопки на странице kitaplar */
+.content-container-taryhy .row:last-child .nav-btn-taryhy:last-child .nav-btn-sygyrlar-2 {
+    font-size: var(--nav-btn-small-font-size);
 }
