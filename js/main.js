@@ -81,6 +81,7 @@ function initializeHorseSlider() {
             el.style.transform = `rotateY(${angle}deg) translateZ(620px) rotateY(var(--fix, 0deg)) scale(var(--scale, 1))`;
         });
         setNeighborCounters(index);
+        ring.style.transform = `rotateY(${-index * step}deg)`;
         updateDepth();
     }
 

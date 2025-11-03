@@ -40,6 +40,11 @@
     --nav-btn-sygyrlar-color: rgb(255, 255, 255);
     --nav-btn-sygyrlar-font-size: clamp(18px, 2.2vw, 26px);
     --poem-color:  rgba(255, 210, 40, 1);
+    
+    /* Taryhy page buttons layout */
+    --taryhy-btn-width: 45vw;
+    --taryhy-row-gap: 20%;
+    --taryhy-btn-gap: 2vh;
 }
 
 * {
@@ -285,6 +290,7 @@
 
 .details-header .item-caption .caption-shadow {
     font-size: calc(var(--hdrSize) + 10px);
+    white-space: nowrap;
     background: -webkit-linear-gradient(transparent, transparent), -webkit-linear-gradient(top,
             rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
     background: -o-linear-gradient(transparent, transparent), -o-linear-gradient(top, rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
@@ -802,4 +808,27 @@ body {
 .content {
     position: fixed;
     top: 10vh;
+}
+.content-container {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+.content-container-taryhy {
+    width: 100%;
+    padding-left: 13.5%;
+    padding-right: 14.5%;
+}
+.content-container-taryhy .row {
+    width: 100%;
+    display: flex;
+    gap: var(--taryhy-row-gap);
+}
+.nav-btn-taryhy {
+    padding-left: 0;
+    padding-right: 0;
+    flex: 0 0 calc((100% - var(--taryhy-row-gap)) / 2);
+    max-width: calc((100% - var(--taryhy-row-gap)) / 2);
+}
+.content-container-taryhy .row:first-child {
+    margin-bottom: 7%;
 }
