@@ -5,6 +5,9 @@
 
     /* Стиль текста для детальных страниц */
     --text-content-font-size: clamp(16px, 2vw, 31px);
+    /* Универсальный размер шрифта для основного текста на всех страницах */
+    
+    --main-text-font-size: clamp(16px, 2vw, 38px);
     --text-content-line-height: 1.5;
     --text-content-color: #fff;
     --text-content-text-align: justify;
@@ -39,6 +42,13 @@
     /* --nav-btn-sygyrlar-color: rgba(255, 210, 40, 1); */
     --nav-btn-sygyrlar-color: rgb(255, 255, 255);
     --nav-btn-sygyrlar-font-size: clamp(18px, 2.2vw, 26px);
+    /* Общий размер шрифта для всех кнопок на страницах */
+    --button-font-size: clamp(2rem, 2.2vw, 2.2rem);
+    --back-button-font-size: clamp(24px, 3.5vw, 38px);
+    /* Размер шрифта для навигационных кнопок в контейнерах */
+    --nav-btn-text-font-size: clamp(18px, 2.2vw, 26px);
+    /* Размер шрифта для длинных кнопок (меньший размер) */
+    --nav-btn-small-font-size: clamp(1.5rem, 2vw, 1.5rem);
     --poem-color:  rgba(255, 210, 40, 1);
     
     /* Taryhy page buttons layout */
@@ -337,7 +347,7 @@
 }
 
 .details-text-content {
-    font-size: clamp(16px, 2vw, 31px);
+    font-size: var(--main-text-font-size);
     line-height: 1.5;
     color: #fff;
     text-align: justify;
@@ -398,6 +408,7 @@ body {
     z-index: 2;
     width: 100%;
     bottom: 14%;
+    /* bottom: 10.5%; */
     left: 50%;
     transform: translateX(-50%);
 }
@@ -408,6 +419,9 @@ body {
     bottom: 50%;
     left: 50%;
     transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navigation-buttons-home {
@@ -618,6 +632,49 @@ body {
     stroke-linejoin: round;
 }
 
+.back-btn-bedewler {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: clamp(200px, 15vw, 600px);
+    width: max-content;
+    /* padding: clamp(1.5vh, 2vh, 3vh) clamp(2vw, 4vw, 6vw); */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: clamp(2px, 0.2vh, 4px) solid rgba(255, 210, 40, 0.5);
+    border-radius: clamp(12px, 1.5vh, 24px);
+    color: white;
+    text-decoration: none;
+    position: fixed;
+    bottom: clamp(3vh, 5vh, 8vh);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: var(--back-button-font-size);
+    font-weight: 700;
+    font-family: var(--font-family-base);
+    letter-spacing: clamp(0.05em, 0.15vw, 0.2em);
+    /* Градиент золота */
+    background: linear-gradient(to bottom, rgba(255, 225, 95, 0.9) 0%, rgba(255, 210, 40, 0.9) 18%, rgba(245, 188, 20, 0.9) 32%, rgba(205, 145, 15, 0.9) 46%, rgba(250, 205, 40, 0.9) 62%, rgba(255, 220, 110, 0.9) 78%, rgba(240, 180, 35, 0.9) 90%, rgba(212, 175, 55, 0.9) 100%);
+    color: rgba(255, 210, 40, 1);
+    text-shadow: 0 clamp(2px, 0.3vh, 8px) clamp(4px, 0.6vh, 16px) rgba(212, 175, 55, 0.8), 0 clamp(4px, 0.6vh, 12px) clamp(8px, 1vh, 24px) rgba(0, 0, 0, 0.5);
+    box-shadow: 0 clamp(4px, 0.5vh, 20px) clamp(12px, 1.5vh, 40px) rgba(212, 175, 55, 0.3), 0 clamp(2px, 0.3vh, 8px) clamp(6px, 0.8vh, 16px) rgba(0, 0, 0, 0.3);
+}
+
+.back-btn-bedewler:hover {
+    transform: translateX(-50%) scale(1.05);
+    border-color: rgba(255, 210, 40, 0.9);
+    filter: brightness(1.2);
+    box-shadow: 0 clamp(6px, 0.8vh, 30px) clamp(18px, 2vh, 60px) rgba(212, 175, 55, 0.5), 0 clamp(4px, 0.6vh, 12px) clamp(10px, 1.2vh, 24px) rgba(0, 0, 0, 0.4);
+}
+
+.back-btn-bedewler:active {
+    transform: translateX(-50%) scale(0.95);
+    filter: brightness(0.95);
+}
+
 /* ===== Экран-заглушка при бездействии ===== */
 .idle-screen {
     position: fixed;
@@ -708,10 +765,11 @@ body {
     background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    font-size: var(--main-text-font-size);
 }
 .card-text-poem{
     white-space:pre-wrap;
-    font-size: var(--poem-font-size);
+    font-size: var(--main-text-font-size);
     line-height: var(--poem-line-height);
     word-break:break-word;
     hyphens:auto;
@@ -725,7 +783,7 @@ body {
 }
 
 .taryhy-text-content p {
-    font-size: var(--text-content-font-size);
+    font-size: var(--main-text-font-size);
     text-align: var(--text-content-text-align);
     margin-bottom: 0.4em;
     line-height: 1.5;
@@ -754,7 +812,7 @@ body {
 }
 .card-text-poem{
     white-space:pre-wrap;
-    font-size: var(--poem-font-size);
+    font-size: var(--main-text-font-size);
     line-height: var(--poem-line-height);
     word-break:break-word;
     hyphens:auto;
@@ -780,7 +838,7 @@ body {
     text-align: center;
     justify-content: center; /* центр по горизонтали */
     align-items: center;    
-    font-size: var(--nav-btn-sygyrlar-font-size) ;
+    font-size: var(--button-font-size);
     font-family: var(--font-family-base);
     text-decoration: none;
     padding-bottom: 2%;
@@ -798,7 +856,7 @@ body {
     text-align: center;
     justify-content: center; /* центр по горизонтали */
     align-items: center;    
-    font-size: var(--nav-btn-sygyrlar-font-size) ;
+    font-size: var(--button-font-size);
     font-family: var(--font-family-base);
     text-decoration: none;
     padding-top: 2%;
@@ -823,12 +881,31 @@ body {
     display: flex;
     gap: var(--taryhy-row-gap);
 }
+.content-container-kitaplar{
+    width: 100%;
+    padding-left: 13.5%;
+    padding-right: 14.5%;
+}
+.content-container-kitaplar .row {
+    width: 100%;
+    display: flex;
+    gap: var(--taryhy-row-gap);
+}
 .nav-btn-taryhy {
     padding-left: 0;
     padding-right: 0;
     flex: 0 0 calc((100% - var(--taryhy-row-gap)) / 2);
     max-width: calc((100% - var(--taryhy-row-gap)) / 2);
 }
+/* Единый размер шрифта для всех кнопок внутри nav-btn-taryhy */
+.nav-btn-taryhy .nav-btn-sygyrlar,
+.nav-btn-taryhy .nav-btn-sygyrlar-2 {
+    font-size: var(--button-font-size);
+}
 .content-container-taryhy .row:first-child {
     margin-bottom: 7%;
+}
+/* Меньший размер шрифта для последней кнопки на странице kitaplar */
+.content-container-taryhy .row:last-child .nav-btn-taryhy:last-child .nav-btn-sygyrlar-2 {
+    font-size: var(--nav-btn-small-font-size);
 }
