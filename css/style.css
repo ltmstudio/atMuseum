@@ -36,8 +36,10 @@
     --poem-font-family: 'Times New Roman', Times, serif;
     --poem-font-size: clamp(0.95rem, 2vw, 2rem);
     --poem-line-height: 1.55;
-    --nav-btn-sygyrlar-color: rgba(255, 210, 40, 1);
+    /* --nav-btn-sygyrlar-color: rgba(255, 210, 40, 1); */
+    --nav-btn-sygyrlar-color: rgb(255, 255, 255);
     --nav-btn-sygyrlar-font-size: clamp(18px, 2.2vw, 26px);
+    --poem-color:  rgba(255, 210, 40, 1);
 }
 
 * {
@@ -530,33 +532,7 @@ body {
     object-fit: cover;
 }
 
-.card-body-poem{
-    position: relative;  
-    z-index: 10; 
-    width: 80vh; height: 80vh; 
-    background-color: rgba(255, 255, 255, 0); 
-    left:0;
-    margin-left: 1.5%;
-}
-.poem-title{ 
-    background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-.card-text-poem{
-    white-space:pre-wrap;
-    font-size: var(--poem-font-size);
-    line-height: var(--poem-line-height);
-    word-break:break-word;
-    hyphens:auto;
-    text-align: center;
-    text-indent: 0;
-    margin-bottom: 20px;
-    text-shadow: 0 3px 6px rgba(1, 0, 0, .65);
-    max-width: 100%;
-    word-spacing: 0.15em;
-    overflow-wrap: break-word;
-}
+
 
 .taryhy-text-content p {
     margin-bottom: 0.4em;
@@ -567,6 +543,38 @@ body {
     background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+/* poem-shygyrlar */
+.card-body-poem{
+    position: relative;  
+    z-index: 10; 
+    width: 80vh; height: 80vh; 
+    background-color: rgba(255, 0, 0, 0); 
+    left:0;
+    margin-left: 1.5%;
+}
+.poem-title{ 
+    background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: var(--poem-font-family);
+}
+.card-text-poem{
+    white-space:pre-wrap;
+    font-size: var(--poem-font-size);
+    line-height: var(--poem-line-height);
+    word-break:break-word;
+    hyphens:auto;
+    text-align: center;
+    text-indent: 0;
+    margin-bottom: 20px;
+   color: var(--poem-color);
+    max-width: 100%;
+    word-spacing: 0.15em;
+    overflow-wrap: break-word;
+    font-family: var(--poem-font-family);
+   
 }
 .nav-btn-sygyrlar {
     display: flex;
@@ -584,6 +592,7 @@ body {
     font-family: var(--font-family-base);
     text-decoration: none;
     padding-bottom: 2%;
+    text-transform: uppercase;
 }
 .nav-btn-sygyrlar-2 {
     display: flex;
@@ -601,4 +610,5 @@ body {
     font-family: var(--font-family-base);
     text-decoration: none;
     padding-top: 2%;
+    text-transform: uppercase;
 }
