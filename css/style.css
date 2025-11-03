@@ -36,6 +36,8 @@
     --poem-font-family: 'Times New Roman', Times, serif;
     --poem-font-size: clamp(0.95rem, 2vw, 2rem);
     --poem-line-height: 1.55;
+    --nav-btn-sygyrlar-color: rgba(255, 210, 40, 1);
+    --nav-btn-sygyrlar-font-size: clamp(18px, 2.2vw, 26px);
 }
 
 * {
@@ -639,15 +641,37 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.nav-btn-TEXT {
-    display: block;
+.nav-btn-sygyrlar {
+    display: flex;
     width: 100%;
-    background: rgba(255, 255, 255, 0.3);
-    border: 1px solid #000;
+    background: rgba(255, 255, 255, 0);
+    border: 0px solid #000;
     position: relative;
     z-index: 2;
     min-height: 10vh;
-    color: rgba(255, 210, 40, 1);
-    
-    
+    color: var(--nav-btn-sygyrlar-color);
+    text-align: center;
+    justify-content: center; /* центр по горизонтали */
+    align-items: center;    
+    font-size: var(--nav-btn-sygyrlar-font-size) ;
+    font-family: var(--font-family-base);
+    text-decoration: none;
+    padding-bottom: 2%;
+}
+.nav-btn-sygyrlar-2 {
+    display: flex;
+    width: 100%;
+    background: rgba(255, 255, 255, 0);
+    border: 0px solid #000;
+    position: relative;
+    z-index: 2;
+    min-height: 10vh;
+    color: var(--nav-btn-sygyrlar-color);
+    text-align: center;
+    justify-content: center; /* центр по горизонтали */
+    align-items: center;    
+    font-size: var(--nav-btn-sygyrlar-font-size) ;
+    font-family: var(--font-family-base);
+    text-decoration: none;
+    padding-top: 2%;
 }
