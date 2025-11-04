@@ -49,7 +49,7 @@
         
         .info-column {
             width: 100%;
-            max-width: 1600px;
+            max-width: 2000px;
             height: 100%;
             display: flex;
             align-items: center;
@@ -89,17 +89,17 @@
             justify-content: center;
             align-items: center;
             width: 100%;
-            max-width: 1600px;
+            max-width: 2000px;
             margin: 0 auto;
         }
         
         .book-page {
             position: relative;
-            width: 50vw;
-            max-width: 700px;
+            width: 60vw;
+            max-width: 900px;
             min-width: 300px;
             height: 90vh;
-            max-height: 1100px;
+            max-height: 1400px;
             cursor: pointer;
             overflow: hidden;
             contain: layout style paint; /* Оптимизация изоляции перерисовки */
@@ -145,26 +145,26 @@
         
         /* Анимации для перелистывания вперёд (вправо) */
         .book-page img.flip-forward-left {
-            animation: flipForwardLeft 1.0s ease-out;
+            animation: flipForwardLeft 1.0s ease-out backwards;
             z-index: 10 !important;
             will-change: transform, opacity;
         }
         
         .book-page img.flip-forward-right {
-            animation: flipForwardRight 1.0s ease-out;
+            animation: flipForwardRight 1.0s ease-out backwards;
             z-index: 10 !important;
             will-change: transform, opacity;
         }
         
         /* Анимации для перелистывания назад (влево) */
         .book-page img.flip-backward-left {
-            animation: flipBackwardLeft 1.0s ease-out;
+            animation: flipBackwardLeft 1.0s ease-out backwards;
             z-index: 10 !important;
             will-change: transform, opacity;
         }
         
         .book-page img.flip-backward-right {
-            animation: flipBackwardRight 1.0s ease-out;
+            animation: flipBackwardRight 1.0s ease-out backwards;
             z-index: 10 !important;
             will-change: transform, opacity;
         }
@@ -301,41 +301,24 @@
         /* Увеличение размера на больших экранах */
         @media (min-width: 1400px) {
             .book-page {
-                width: 52vw;
-                max-width: 900px;
+                width: 62vw;
+                max-width: 1100px;
                 height: 92vh;
-                max-height: 1300px;
+                max-height: 1500px;
             }
             
             .book-spread {
-                max-width: 2000px;
+                max-width: 2400px;
             }
             
             .info-column {
-                max-width: 2000px;
+                max-width: 2400px;
             }
         }
         
         @media (min-width: 1920px) {
             .book-page {
-                width: 55vw;
-                max-width: 1100px;
-                height: 92vh;
-                max-height: 1400px;
-            }
-            
-            .book-spread {
-                max-width: 2400px;
-            }
-            
-            .info-column {
-                max-width: 2400px;
-            }
-        }
-        
-        @media (min-width: 2560px) {
-            .book-page {
-                width: 56vw;
+                width: 65vw;
                 max-width: 1300px;
                 height: 92vh;
                 max-height: 1600px;
@@ -347,6 +330,23 @@
             
             .info-column {
                 max-width: 2800px;
+            }
+        }
+        
+        @media (min-width: 2560px) {
+            .book-page {
+                width: 68vw;
+                max-width: 1600px;
+                height: 92vh;
+                max-height: 1800px;
+            }
+            
+            .book-spread {
+                max-width: 3400px;
+            }
+            
+            .info-column {
+                max-width: 3400px;
             }
         }
         
@@ -483,6 +483,17 @@
                     return;
                 }
                 
+                // Сбрасываем transform для всех изображений перед началом новой анимации
+                // Это предотвращает сохранение уменьшенного размера от предыдущих анимаций
+                leftImgCurrent.style.transform = 'none';
+                rightImgCurrent.style.transform = 'none';
+                leftImgNext.style.transform = 'none';
+                rightImgNext.style.transform = 'none';
+                leftImgCurrent.style.transformOrigin = '';
+                rightImgCurrent.style.transformOrigin = '';
+                leftImgNext.style.transformOrigin = '';
+                rightImgNext.style.transformOrigin = '';
+                
                 // Новые изображения должны быть скрыты
                 leftImgNext.classList.remove('visible');
                 leftImgNext.classList.add('hidden');
@@ -496,6 +507,12 @@
                     if (leftLoaded && rightLoaded) {
                         if (skipAnimation) {
                             // Начальная загрузка - просто показываем изображения без анимации
+                            // Убеждаемся, что transform сброшен для всех изображений
+                            leftImgNext.style.transform = 'none';
+                            rightImgNext.style.transform = 'none';
+                            leftImgCurrent.style.transform = 'none';
+                            rightImgCurrent.style.transform = 'none';
+                            
                             leftImgNext.classList.remove('hidden');
                             leftImgNext.classList.add('visible');
                             
@@ -520,28 +537,38 @@
                             // По умолчанию forward если не указано
                             var isForward = flipDirection !== 'backward';
                             
-                            // Добавляем соответствующую анимацию исчезновения на старые изображения
-                            if (isForward) {
-                                // Перелистывание вперёд (вправо) - обе страницы уходят вправо
-                                leftImgCurrent.classList.add('flip-forward-left');
-                                rightImgCurrent.classList.add('flip-forward-right');
-                            } else {
-                                // Перелистывание назад (влево) - обе страницы уходят влево
-                                leftImgCurrent.classList.add('flip-backward-left');
-                                rightImgCurrent.classList.add('flip-backward-right');
-                            }
+                            // КРИТИЧНО: Убеждаемся, что inline transform удален, чтобы CSS анимация работала правильно
+                            // Transform уже сброшен в начале loadPages, но на всякий случай еще раз сбрасываем
+                            leftImgCurrent.style.transform = '';
+                            rightImgCurrent.style.transform = '';
                             
-                            // Используем requestAnimationFrame для плавности
+                            // Принудительный пересчет стилей для применения сброса transform
+                            // Это гарантирует, что браузер сбросит transform ДО добавления класса анимации
+                            void leftImgCurrent.offsetWidth;
+                            void rightImgCurrent.offsetWidth;
+                            
+                            // Используем requestAnimationFrame для синхронизации начала анимации
+                            // Это гарантирует, что transform сброшен и готов к началу анимации
                             requestAnimationFrame(function() {
-                                requestAnimationFrame(function() {
-                                    // Теперь показываем новые изображения с плавным появлением
-                                    // Они будут под старыми (z-index: 1 < z-index: 10)
-                                    leftImgNext.classList.remove('hidden');
-                                    leftImgNext.classList.add('visible', 'fade-in');
-                                    
-                                    rightImgNext.classList.remove('hidden');
-                                    rightImgNext.classList.add('visible', 'fade-in');
-                                });
+                                // Добавляем соответствующую анимацию исчезновения на старые изображения
+                                // CSS анимация с fill-mode: backwards начнется с правильного начального состояния из keyframes (scale3d(1,1,1))
+                                if (isForward) {
+                                    // Перелистывание вперёд (вправо) - обе страницы уходят вправо
+                                    leftImgCurrent.classList.add('flip-forward-left');
+                                    rightImgCurrent.classList.add('flip-forward-right');
+                                } else {
+                                    // Перелистывание назад (влево) - обе страницы уходят влево
+                                    leftImgCurrent.classList.add('flip-backward-left');
+                                    rightImgCurrent.classList.add('flip-backward-right');
+                                }
+                                
+                                // Сразу показываем новые изображения синхронно с началом анимации старых
+                                // Это предотвращает задержку и мелькание
+                                leftImgNext.classList.remove('hidden');
+                                leftImgNext.classList.add('visible', 'fade-in');
+                                
+                                rightImgNext.classList.remove('hidden');
+                                rightImgNext.classList.add('visible', 'fade-in');
                             });
                             
                             // После окончания анимации скрываем старые
@@ -562,6 +589,12 @@
                                 // Убираем класс fade-in и will-change у новых после анимации
                                 leftImgNext.classList.remove('fade-in');
                                 rightImgNext.classList.remove('fade-in');
+                                
+                                // Сбрасываем transform для старых изображений, чтобы они не оставались уменьшенными
+                                leftImgCurrent.style.transform = 'none';
+                                rightImgCurrent.style.transform = 'none';
+                                leftImgCurrent.style.transformOrigin = '';
+                                rightImgCurrent.style.transformOrigin = '';
                                 
                                 // Сбрасываем will-change для оптимизации
                                 leftImgNext.style.willChange = 'auto';
