@@ -1,810 +1,261 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>At Muzey - Kitaplar</title>
-    <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>At Muzey - Kitaplar</title>
+
+  <link rel="stylesheet" href="../css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
+
+  <style>
+    /* слой с видео */
+    .video-container{position:relative}
+    .video-container video{
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; z-index:0; pointer-events:none;
+    }
+    .navigation-container-btn{position:relative; z-index:20}
+    .content{
+      position:fixed; top:5vh; left:0; right:0; bottom:0;
+      display:flex; align-items:center; justify-content:center; z-index:10;
+    }
+    .info-column,.info-content,#info-content{
+      width:100%; height:100%; display:flex; align-items:center; justify-content:center;
+    }
+
+    /* ====== PURE JS BOOK EFFECT (адаптировано) ====== */
+    .book{ transition: opacity .4s .2s; perspective: 250vw; }
+    .pages{
+      width: 64vw; 
+      height: 44vw; 
+      /* max-height: 1350px; max-width: 1900px; */
+      position: relative;
+      transform-style: preserve-3d;
+      backface-visibility: hidden;
+      border-radius: 6px;
+    }
+    .page{
+      position:absolute; top:0;
+      width:32vw; 
+      height:44vw; 
+      /* max-width:950px;max-height:1350px; */
+      transform-origin: 0 0;
+      transition: transform 1.2s;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      cursor:pointer; user-select:none;
+      background:#f0f0f0 center/contain no-repeat;
+      /* box-shadow: 0 10px 35px rgba(0,0,0,.35); */
+      /* ключевое: auto 100% */}
+    .page:before{
+      content:""; position:absolute; inset:0; z-index:2;
+      background: rgba(0,0,0,0); transition: background .7s;
+    }
+
+    /* правая (odd) */
+    .page:nth-child(odd){
+      right:0; border-radius:0 6px 6px 0;
+      background-image: linear-gradient(to right, rgba(0,0,0,.15) 0%, rgba(0,0,0,0) 10%);
+      transform: rotateY(0deg);
+      pointer-events: all;
+    }
+    .page:nth-child(odd):hover{ transform: rotateY(-15deg); }
+    .page:nth-child(odd):hover:before{ background: rgba(0,0,0,.03); }
+
+    /* левая (even) */
+    .page:nth-child(even){
+      left:0; border-radius:6px 0 0 6px;
+      background-image: linear-gradient(to left, rgba(0,0,0,.12) 0%, rgba(0,0,0,0) 10%);
+      transform-origin: 100% 0;
+      transform: rotateY(180deg);
+      pointer-events: none;
+    }
+    .page:nth-child(even):before{ background: rgba(0,0,0,.20); }
+
+    /* flipped state */
+    .page.flipped:nth-child(odd){
+      transform: rotateY(-180deg); pointer-events:none;
+    }
+    .page.flipped:nth-child(odd):before{ background: rgba(0,0,0,.20); }
+    .page.flipped:nth-child(even){
+      transform: rotateY(0deg); pointer-events:all;
+    }
+    .page.flipped:nth-child(even):hover{ transform: rotateY(15deg); }
+    .page.flipped:nth-child(even):hover:before{ background: rgba(0,0,0,.03); }
+    .page.flipped:nth-child(even):before{ background: rgba(0,0,0,0); }
+
+    /* подпись/декор */
+    .page p{
+      margin-top: 8vw; text-align:center; font-size: 5vw; color:#000;
+      font-family: 'Lovers Quarrel', cursive;
+    }
+
+    .info-message{
+      color:#ff5555; background:rgba(0,0,0,.45);
+      border:1px solid rgba(255,255,255,.25); padding:10px 12px; border-radius:8px; font-weight:600;
+    }
     
+
+
+    .page.align-center-bottom {
+     background-size: auto 100% !important;
+     background-position: center bottom !important;
+    }
+
+
+  </style>
 </head>
 <body>
-    <div class="video-container">
-        <video id="mainVideo" autoplay muted loop playsinline>
-            <source src="../assets/videos/kitaplar/kitaplar_fon.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
-        </video>
-        <a href="javascript:history.back()" class="back-btn-bedewler" aria-label="Назад">
-            YZA
+  <div class="video-container">
+    <video id="mainVideo" autoplay muted loop playsinline>
+      <source src="../assets/videos/kitaplar/kitaplar_fon.mp4" type="video/mp4">
+      Ваш браузер не поддерживает видео.
+    </video>
+
+    <div class="navigation-container-btn">
+      <div class="container-fluid">
+        <a href="javascript:history.back()" class="back-btn" aria-label="Назад">
+          <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
         </a>
-        <!-- <div class="navigation-container navigation-container--info"> -->
-            <div class="container-fluid content">
-      
-
-                <div class="info-column">
-                    <div class="info-content">
-                        <div id="info-content"></div>
-                    </div>
-                </div>
-
-            </div>
-        <!-- </div> -->
+      </div>
     </div>
 
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/main.js"></script>
-    <style>
-        /* Улучшенное позиционирование контейнеров */
-        .content {
-            position: fixed;
-            top: 10vh;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .info-column {
-            width: 100%;
-            max-width: 2000px;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .info-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        #info-content {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .book-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-            width: 100%;
-            perspective: 2000px;
-            position: relative;
-        }
-        
-        .book-spread {
-            display: flex;
-            gap: 0;
-            position: relative;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 2000px;
-            margin: 0 auto;
-        }
-        
-        .book-page {
-            position: relative;
-            width: 60vw;
-            max-width: 900px;
-            min-width: 300px;
-            height: 90vh;
-            max-height: 1400px;
-            cursor: pointer;
-            overflow: hidden;
-            contain: layout style paint; /* Оптимизация изоляции перерисовки */
-        }
-        
-        .book-page-left {
-            margin-right: 0;
-        }
-        
-        .book-page-right {
-            margin-left: 0;
-        }
-        
-        .book-page img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: center center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            backface-visibility: hidden; /* Оптимизация для 3D трансформаций */
-            transform-style: preserve-3d;
-            /* box-shadow: 0 0 20px rgba(0,0,0,0.5); */
-        }
-        
-        .book-page img.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .book-page img.visible {
-            opacity: 1;
-            visibility: visible;
-            z-index: 1;
-        }
-        
-        .book-page:active img.visible {
-            transform: scale3d(0.98, 0.98, 1);
-        }
-        
-        /* Анимации для перелистывания вперёд (вправо) */
-        .book-page img.flip-forward-left {
-            animation: flipForwardLeft 1.0s ease-out backwards;
-            z-index: 10 !important;
-            will-change: transform, opacity;
-        }
-        
-        .book-page img.flip-forward-right {
-            animation: flipForwardRight 1.0s ease-out backwards;
-            z-index: 10 !important;
-            will-change: transform, opacity;
-        }
-        
-        /* Анимации для перелистывания назад (влево) */
-        .book-page img.flip-backward-left {
-            animation: flipBackwardLeft 1.0s ease-out backwards;
-            z-index: 10 !important;
-            will-change: transform, opacity;
-        }
-        
-        .book-page img.flip-backward-right {
-            animation: flipBackwardRight 1.0s ease-out backwards;
-            z-index: 10 !important;
-            will-change: transform, opacity;
-        }
-        
-        /* Новые изображения появляются плавно */
-        .book-page img.fade-in {
-            animation: fadeIn 0.3s ease-in;
-            will-change: opacity;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        /* Анимации для перелистывания вперёд (вправо) */
-        @keyframes flipForwardLeft {
-            0% { 
-                opacity: 1;
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(0deg) scale3d(1, 1, 1);
-            }
-            10% {
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(10deg) scale3d(1, 1, 1);
-                opacity: 1;
-            }
-            50% {
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(90deg) scale3d(0.95, 0.95, 1);
-                opacity: 0.3;
-            }
-            90% {
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(170deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-            100% { 
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(180deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes flipForwardRight {
-            0% { 
-                opacity: 1;
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(0deg) scale3d(1, 1, 1);
-            }
-            10% {
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(10deg) scale3d(1, 1, 1);
-                opacity: 1;
-            }
-            50% {
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(90deg) scale3d(0.95, 0.95, 1);
-                opacity: 0.3;
-            }
-            90% {
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(170deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-            100% { 
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(180deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-        }
-        
-        /* Анимации для перелистывания назад (влево) */
-        @keyframes flipBackwardLeft {
-            0% { 
-                opacity: 1;
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(0deg) scale3d(1, 1, 1);
-            }
-            10% {
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(-10deg) scale3d(1, 1, 1);
-                opacity: 1;
-            }
-            50% {
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(-90deg) scale3d(0.95, 0.95, 1);
-                opacity: 0.3;
-            }
-            90% {
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(-170deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-            100% { 
-                transform-origin: right center;
-                transform: perspective(1500px) rotateY(-180deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-        }
-        
-        @keyframes flipBackwardRight {
-            0% { 
-                opacity: 1;
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(0deg) scale3d(1, 1, 1);
-            }
-            10% {
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(-10deg) scale3d(1, 1, 1);
-                opacity: 1;
-            }
-            50% {
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(-90deg) scale3d(0.95, 0.95, 1);
-                opacity: 0.3;
-            }
-            90% {
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(-170deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-            100% { 
-                transform-origin: left center;
-                transform: perspective(1500px) rotateY(-180deg) scale3d(0.9, 0.9, 1);
-                opacity: 0;
-            }
-        }
-        
-        /* Увеличение размера на больших экранах */
-        @media (min-width: 1400px) {
-            .book-page {
-                width: 62vw;
-                max-width: 1100px;
-                height: 92vh;
-                max-height: 1500px;
-            }
-            
-            .book-spread {
-                max-width: 2400px;
-            }
-            
-            .info-column {
-                max-width: 2400px;
-            }
-        }
-        
-        @media (min-width: 1920px) {
-            .book-page {
-                width: 65vw;
-                max-width: 1300px;
-                height: 92vh;
-                max-height: 1600px;
-            }
-            
-            .book-spread {
-                max-width: 2800px;
-            }
-            
-            .info-column {
-                max-width: 2800px;
-            }
-        }
-        
-        @media (min-width: 2560px) {
-            .book-page {
-                width: 68vw;
-                max-width: 1600px;
-                height: 92vh;
-                max-height: 1800px;
-            }
-            
-            .book-spread {
-                max-width: 3400px;
-            }
-            
-            .info-column {
-                max-width: 3400px;
-            }
-        }
-        
-        /* Адаптивность для маленьких экранов */
-        @media (max-width: 768px) {
-            .book-page {
-                width: 48vw;
-                max-width: 100%;
-                height: 80vh;
-            }
-            
-            .book-spread {
-                flex-direction: column;
-                gap: 2vh;
-            }
-            
-            .book-page-left,
-            .book-page-right {
-                width: 90vw;
-                max-width: 100%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .book-page {
-                width: 95vw;
-                height: 75vh;
-            }
-        }
-    </style>
-    
-    <script>
-    (function() {
-        var params = new URLSearchParams(window.location.search);
-        var key = params.get('key') || '';
+    <div class="container-fluid content">
+      <div class="info-column">
+        <div class="info-content">
+          <div id="info-content"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        var contentEl = document.getElementById('info-content');
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/main.js"></script>
 
-        var imageSetsByKey = {
-            book1: { 
-                title: 'Atda Wepa-da bar, Sapada', 
-                imageDir: '../pdf/ATDA WEPA-DA BAR, SAPA-DA/1.ATDA WEPA-DA BAR, SAPA-DA/',
-                imagePrefix: '1.ATDA WEPA-DA BAR, SAPA-DA - ',
-                totalPages: 358
-            },
-            book2: { 
-                title: 'Ganatly Bedew',
-                imageDir: '../pdf/Ganatly bedew/(wnut) Sonky wariant 18.04 - TM/',
-                imagePrefix: '(wnut) Sonky wariant 18.04 - TM - ',
-                totalPages: 288
-            },
-            book3: { 
-                title: 'Bedew Galkynyşyň Ganaty',
-                imageDir: '../pdf/Book3/',
-                imagePrefix: 'page-',
-                totalPages: 0
-            },
-            book4: { 
-                title: 'Ahalteke Bedewi - Biziň Buýsanjymyz we Şöhratymyz',
-                imageDir: '../pdf/Book4/',
-                imagePrefix: 'page-',
-                totalPages: 0
-            }
-        };
+  <script>
+    (function () {
+    const params = new URLSearchParams(location.search);
+    const key = params.get('key') || 'book1';
 
-        var selected = imageSetsByKey[key];
-        if (selected) {
-            var currentLeftPage = 1;
-            var currentRightPage = 2;
-            var imageDir = selected.imageDir;
-            var imagePrefix = selected.imagePrefix;
-            var totalPages = selected.totalPages;
+    const mount = document.getElementById('info-content');
 
-            // Special page order for book1: 1, 4, 2, 3, 4, 5, 6, 7, 8, ...
-            function getPageSequence() {
-                if (key === 'book1') {
-                    var seq = [1, 4, 2, 3, 4];
-                    for (var i = 5; i <= 358; i++) {
-                        seq.push(i);
-                    }
-                    return seq;
-                } else {
-                    // Normal sequence for other books
-                    var seq = [];
-                    for (var i = 1; i <= totalPages; i++) {
-                        seq.push(i);
-                    }
-                    return seq;
-                }
-            }
-            
-            // Текущий активный буфер (1 или 2)
-            var currentLeftBuffer = 1;
-            var currentRightBuffer = 1;
-            var isFlipping = false; // Защита от множественных кликов
-            var lastFlipTime = 0; // Время последнего перелистывания
-            var animationTimeout = null; // Храним таймер для очистки
-            
-            function loadPages(leftPage, rightPage, skipAnimation, flipDirection) {
-                // Очищаем предыдущий таймер если он есть
-                if (animationTimeout !== null) {
-                    clearTimeout(animationTimeout);
-                    animationTimeout = null;
-                }
-                var pageSequence = getPageSequence();
-                
-                // Ensure pages are within bounds
-                if (leftPage < 1) leftPage = 1;
-                if (rightPage > pageSequence.length) rightPage = pageSequence.length;
-                if (rightPage < leftPage + 1) rightPage = leftPage + 1;
-                
-                currentLeftPage = leftPage;
-                currentRightPage = rightPage;
-                
-                var leftPageNum = pageSequence[leftPage - 1];
-                var rightPageNum = pageSequence[rightPage - 1];
-                
-                var leftImagePath = imageDir + encodeURIComponent(imagePrefix + pad(leftPageNum, 4) + '.jpg');
-                var rightImagePath = imageDir + encodeURIComponent(imagePrefix + pad(rightPageNum, 4) + '.jpg');
-                
-                // Определяем, какой буфер использовать (переключаем между 1 и 2)
-                var nextLeftBuffer = currentLeftBuffer === 1 ? 2 : 1;
-                var nextRightBuffer = currentRightBuffer === 1 ? 2 : 1;
-                
-                var leftImgCurrent = document.getElementById('left-page-img-' + currentLeftBuffer);
-                var leftImgNext = document.getElementById('left-page-img-' + nextLeftBuffer);
-                var rightImgCurrent = document.getElementById('right-page-img-' + currentRightBuffer);
-                var rightImgNext = document.getElementById('right-page-img-' + nextRightBuffer);
-                
-                // Проверка на существование элементов
-                if (!leftImgCurrent || !leftImgNext || !rightImgCurrent || !rightImgNext) {
-                    console.error('Image elements not found');
-                    isFlipping = false;
-                    return;
-                }
-                
-                // Сбрасываем transform для всех изображений перед началом новой анимации
-                // Это предотвращает сохранение уменьшенного размера от предыдущих анимаций
-                leftImgCurrent.style.transform = 'none';
-                rightImgCurrent.style.transform = 'none';
-                leftImgNext.style.transform = 'none';
-                rightImgNext.style.transform = 'none';
-                leftImgCurrent.style.transformOrigin = '';
-                rightImgCurrent.style.transformOrigin = '';
-                leftImgNext.style.transformOrigin = '';
-                rightImgNext.style.transformOrigin = '';
-                
-                // Новые изображения должны быть скрыты
-                leftImgNext.classList.remove('visible');
-                leftImgNext.classList.add('hidden');
-                rightImgNext.classList.remove('visible');
-                rightImgNext.classList.add('hidden');
-                
-                var leftLoaded = false;
-                var rightLoaded = false;
-                
-                function checkBothLoaded() {
-                    if (leftLoaded && rightLoaded) {
-                        if (skipAnimation) {
-                            // Начальная загрузка - просто показываем изображения без анимации
-                            // Убеждаемся, что transform сброшен для всех изображений
-                            leftImgNext.style.transform = 'none';
-                            rightImgNext.style.transform = 'none';
-                            leftImgCurrent.style.transform = 'none';
-                            rightImgCurrent.style.transform = 'none';
-                            
-                            leftImgNext.classList.remove('hidden');
-                            leftImgNext.classList.add('visible');
-                            
-                            rightImgNext.classList.remove('hidden');
-                            rightImgNext.classList.add('visible');
-                            
-                            // Скрываем старые (если они были)
-                            leftImgCurrent.classList.remove('visible');
-                            leftImgCurrent.classList.add('hidden');
-                            
-                            rightImgCurrent.classList.remove('visible');
-                            rightImgCurrent.classList.add('hidden');
-                            
-                            // Обновляем текущие буферы
-                            currentLeftBuffer = nextLeftBuffer;
-                            currentRightBuffer = nextRightBuffer;
-                            
-                            isFlipping = false;
-                        } else {
-                            // Обычное перелистывание с анимацией
-                            // Определяем направление анимации (forward = вперёд/вправо, backward = назад/влево)
-                            // По умолчанию forward если не указано
-                            var isForward = flipDirection !== 'backward';
-                            
-                            // КРИТИЧНО: Убеждаемся, что inline transform удален, чтобы CSS анимация работала правильно
-                            // Transform уже сброшен в начале loadPages, но на всякий случай еще раз сбрасываем
-                            leftImgCurrent.style.transform = '';
-                            rightImgCurrent.style.transform = '';
-                            
-                            // Принудительный пересчет стилей для применения сброса transform
-                            // Это гарантирует, что браузер сбросит transform ДО добавления класса анимации
-                            void leftImgCurrent.offsetWidth;
-                            void rightImgCurrent.offsetWidth;
-                            
-                            // Используем requestAnimationFrame для синхронизации начала анимации
-                            // Это гарантирует, что transform сброшен и готов к началу анимации
-                            requestAnimationFrame(function() {
-                                // Добавляем соответствующую анимацию исчезновения на старые изображения
-                                // CSS анимация с fill-mode: backwards начнется с правильного начального состояния из keyframes (scale3d(1,1,1))
-                                if (isForward) {
-                                    // Перелистывание вперёд (вправо) - обе страницы уходят вправо
-                                    leftImgCurrent.classList.add('flip-forward-left');
-                                    rightImgCurrent.classList.add('flip-forward-right');
-                                } else {
-                                    // Перелистывание назад (влево) - обе страницы уходят влево
-                                    leftImgCurrent.classList.add('flip-backward-left');
-                                    rightImgCurrent.classList.add('flip-backward-right');
-                                }
-                                
-                                // Сразу показываем новые изображения синхронно с началом анимации старых
-                                // Это предотвращает задержку и мелькание
-                                leftImgNext.classList.remove('hidden');
-                                leftImgNext.classList.add('visible', 'fade-in');
-                                
-                                rightImgNext.classList.remove('hidden');
-                                rightImgNext.classList.add('visible', 'fade-in');
-                            });
-                            
-                            // После окончания анимации скрываем старые
-                            animationTimeout = setTimeout(function() {
-                                // Проверка на существование элементов перед манипуляциями
-                                if (!leftImgCurrent || !leftImgNext || !rightImgCurrent || !rightImgNext) {
-                                    isFlipping = false;
-                                    return;
-                                }
-                                
-                                // Удаляем все возможные классы анимации
-                                leftImgCurrent.classList.remove('visible', 'flip-forward-left', 'flip-forward-right', 'flip-backward-left', 'flip-backward-right');
-                                leftImgCurrent.classList.add('hidden');
-                                
-                                rightImgCurrent.classList.remove('visible', 'flip-forward-left', 'flip-forward-right', 'flip-backward-left', 'flip-backward-right');
-                                rightImgCurrent.classList.add('hidden');
-                                
-                                // Убираем класс fade-in и will-change у новых после анимации
-                                leftImgNext.classList.remove('fade-in');
-                                rightImgNext.classList.remove('fade-in');
-                                
-                                // Сбрасываем transform для старых изображений, чтобы они не оставались уменьшенными
-                                leftImgCurrent.style.transform = 'none';
-                                rightImgCurrent.style.transform = 'none';
-                                leftImgCurrent.style.transformOrigin = '';
-                                rightImgCurrent.style.transformOrigin = '';
-                                
-                                // Сбрасываем will-change для оптимизации
-                                leftImgNext.style.willChange = 'auto';
-                                rightImgNext.style.willChange = 'auto';
-                                leftImgCurrent.style.willChange = 'auto';
-                                rightImgCurrent.style.willChange = 'auto';
-                                
-                                // Обновляем текущие буферы
-                                currentLeftBuffer = nextLeftBuffer;
-                                currentRightBuffer = nextRightBuffer;
-                                
-                                animationTimeout = null;
-                                isFlipping = false;
-                            }, 1000);
-                        }
-                    }
-                }
-                
-                // Предзагружаем изображения в скрытые буферы
-                var leftPreload = new Image();
-                var leftLoadTimeout = null;
-                leftPreload.onload = function() {
-                    if (leftLoadTimeout) clearTimeout(leftLoadTimeout);
-                    if (leftImgNext) {
-                        leftImgNext.src = leftImagePath;
-                    }
-                    leftLoaded = true;
-                    checkBothLoaded();
-                };
-                leftPreload.onerror = function() {
-                    if (leftLoadTimeout) clearTimeout(leftLoadTimeout);
-                    // Все равно пытаемся установить src на случай если браузер кэшировал
-                    if (leftImgNext) {
-                        leftImgNext.src = leftImagePath;
-                    }
-                    leftLoaded = true;
-                    checkBothLoaded();
-                };
-                // Таймаут на случай зависания загрузки
-                leftLoadTimeout = setTimeout(function() {
-                    if (!leftLoaded) {
-                        leftPreload.onerror();
-                    }
-                }, 10000); // 10 секунд таймаут
-                leftPreload.src = leftImagePath;
-                
-                var rightPreload = new Image();
-                var rightLoadTimeout = null;
-                rightPreload.onload = function() {
-                    if (rightLoadTimeout) clearTimeout(rightLoadTimeout);
-                    if (rightImgNext) {
-                        rightImgNext.src = rightImagePath;
-                    }
-                    rightLoaded = true;
-                    checkBothLoaded();
-                };
-                rightPreload.onerror = function() {
-                    if (rightLoadTimeout) clearTimeout(rightLoadTimeout);
-                    // Все равно пытаемся установить src на случай если браузер кэшировал
-                    if (rightImgNext) {
-                        rightImgNext.src = rightImagePath;
-                    }
-                    rightLoaded = true;
-                    checkBothLoaded();
-                };
-                // Таймаут на случай зависания загрузки
-                rightLoadTimeout = setTimeout(function() {
-                    if (!rightLoaded) {
-                        rightPreload.onerror();
-                    }
-                }, 10000); // 10 секунд таймаут
-                rightPreload.src = rightImagePath;
-            }
+    // карты книг: папка, префикс, кол-во
+    const sets = {
+      book1: {
+        title: 'Atda Wepa-da bar, Sapada',
+        dir: '../pdf/ATDA WEPA-DA BAR, SAPA-DA/1.ATDA WEPA-DA BAR, SAPA-DA/',
+        prefix: '1.ATDA WEPA-DA BAR, SAPA-DA - ',
+        count: 358, pad: 4,
+        customSequence: false
+      },
+      book2: {
+        title: 'Ganatly Bedew',
+        dir: '../pdf/Ganatly bedew/(wnut) Sonky wariant 18.04 - TM/',
+        prefix: '(wnut) Sonky wariant 18.04 - TM - ',
+        count: 288, pad: 4
+      },
+      book3: { title: 'Bedew Galkynyşyň Ganaty', dir: '../pdf/Book3/', prefix: 'page-', count: 0, pad: 4 },
+      book4: { title: 'Ahalteke Bedewi...', dir: '../pdf/Book4/', prefix: 'page-', count: 0, pad: 4 }
+    };
 
-            function flipNext(e) {
-                if (e) e.preventDefault(); // Предотвращаем стандартное поведение
-                
-                // Защита от множественных кликов - проверяем флаг и время
-                var now = Date.now();
-                if (isFlipping || (now - lastFlipTime < 1100)) {
-                    return; // Игнорируем если уже перелистывается или прошло меньше 1.1 секунды
-                }
-                
-                isFlipping = true;
-                lastFlipTime = now;
-                
-                var pageSequence = getPageSequence();
-                
-                // Проверка на пустую последовательность
-                if (!pageSequence || pageSequence.length === 0) {
-                    isFlipping = false;
-                    return;
-                }
-                
-                // Начинаем предзагрузку новых страниц сразу
-                    var nextLeft = currentRightPage + 1;
-                    var nextRight = currentRightPage + 2;
-                    
-                if (nextRight <= pageSequence.length && nextLeft >= 1) {
-                    // Начинаем загрузку новых изображений с анимацией вперёд (вправо)
-                    loadPages(nextLeft, nextRight, false, 'forward');
-                } else {
-                    isFlipping = false; // Сбрасываем если нет следующей страницы
-                }
-            }
+    const conf = sets[key];
+    if (!conf || !conf.count) {
+      mount.innerHTML = '<div class="info-message">Нет страниц. Укажи ?key=book1|book2 и заполни count.</div>';
+      return;
+    }
 
-            function flipPrev(e) {
-                if (e) e.preventDefault(); // Предотвращаем стандартное поведение
-                
-                // Защита от множественных кликов - проверяем флаг и время
-                var now = Date.now();
-                if (isFlipping || (now - lastFlipTime < 1100)) {
-                    return; // Игнорируем если уже перелистывается или прошло меньше 1.1 секунды
-                }
-                
-                isFlipping = true;
-                lastFlipTime = now;
-                
-                var pageSequence = getPageSequence();
-                
-                // Проверка на пустую последовательность
-                if (!pageSequence || pageSequence.length === 0) {
-                    isFlipping = false;
-                    return;
-                }
-                
-                // Начинаем предзагрузку новых страниц сразу
-                    var prevLeft = currentLeftPage - 2;
-                    var prevRight = currentLeftPage - 1;
-                    
-                if (prevLeft >= 1 && prevRight <= pageSequence.length) {
-                    // Загрузка с анимацией назад (влево)
-                    loadPages(prevLeft, prevRight, false, 'backward');
-                } else if (pageSequence.length >= 2) {
-                    // Загрузка с анимацией назад (влево) - возвращаемся к началу
-                    loadPages(1, 2, false, 'backward');
-                    } else {
-                    isFlipping = false; // Нет страниц для загрузки
-                    }
-            }
+    const pad = (n,l)=> String(n).padStart(l,'0');
+    function seq(){
+      if (conf.customSequence) {
+        const s=[1,4,2,3,4]; for(let i=5;i<=conf.count;i++) s.push(i); return s;
+      }
+      return Array.from({length: conf.count}, (_,i)=> i+1);
+    }
+    const order = seq();
+    const pathOf = (n)=> encodeURI(conf.dir + conf.prefix + pad(n, conf.pad) + '.jpg');
 
-            function pad(num, size) {
-                var s = num + '';
-                while (s.length < size) s = '0' + s;
-                return s;
-            }
+    // строим книгу
+    const bookEl = document.createElement('div');
+    bookEl.className = 'book';
+    const pagesEl = document.createElement('div');
+    pagesEl.className = 'pages';
+    bookEl.appendChild(pagesEl);
 
-            var html =
-                '<div class="book-container">' +
-                    '<div class="book-spread">' +
-                        '<div id="book-page-left" class="book-page book-page-left">' +
-                            '<img id="left-page-img-1" class="visible" src="" alt="Left page">' +
-                            '<img id="left-page-img-2" class="hidden" src="" alt="Left page">' +
-                        '</div>' +
-                        '<div id="book-page-right" class="book-page book-page-right">' +
-                            '<img id="right-page-img-1" class="visible" src="" alt="Right page">' +
-                            '<img id="right-page-img-2" class="hidden" src="" alt="Right page">' +
-                        '</div>' +
-                    '</div>' +
-                '</div>';
+    // первая страница с текстом (можно убрать)
+    // const first = document.createElement('div');
+    // first.className = 'page';
+    // first.innerHTML = '<p>Open Me,<br>please!</p>';
+    // pagesEl.appendChild(first);
 
-            contentEl.innerHTML = html;
+    // создаём страницы под все изображения
+    order.forEach(n=>{
+      const p = document.createElement('div');
+      p.className = 'page';
+      p.style.backgroundImage = `url("${pathOf(n)}")`;
+      pagesEl.appendChild(p);
+    });
 
-            // Обработчики событий для перелистывания (поддержка разных типов взаимодействия)
-            var leftPageEl = document.getElementById('book-page-left');
-            var rightPageEl = document.getElementById('book-page-right');
-            
-            // Обработчики для левой страницы
-            function handleLeftPage(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                flipPrev(e);
-            }
-            
-            // Обработчики для правой страницы
-            function handleRightPage(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                flipNext(e);
-            }
-            
-            // Добавляем обработчики для mousedown и pointerdown (более надёжно чем click)
-            // mousedown срабатывает раньше и надёжнее при неполных кликах
-            leftPageEl.addEventListener('mousedown', handleLeftPage, { passive: false });
-            rightPageEl.addEventListener('mousedown', handleRightPage, { passive: false });
-            
-            // Также поддерживаем touch и pointer события для мобильных устройств
-            leftPageEl.addEventListener('pointerdown', handleLeftPage, { passive: false });
-            rightPageEl.addEventListener('pointerdown', handleRightPage, { passive: false });
-            
-            leftPageEl.addEventListener('touchstart', handleLeftPage, { passive: false });
-            rightPageEl.addEventListener('touchstart', handleRightPage, { passive: false });
+    mount.innerHTML = '';
+    mount.appendChild(bookEl);
 
-            // Keyboard navigation
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'ArrowLeft') {
-                    flipPrev();
-                } else if (e.key === 'ArrowRight') {
-                    flipNext();
-                }
-            });
+    // z-index для слоя страниц
+    const pages = pagesEl.getElementsByClassName('page');
+    for (let i=0;i<pages.length;i++){
+      if (i % 2 === 0) pages[i].style.zIndex = (pages.length - i);
+    }
 
-            loadPages(1, 2, true, null); // true = skipAnimation для начальной загрузки
-            return;
+    // логика клика (перелистывание пары)
+    for (let i=0;i<pages.length;i++){
+      pages[i].pageNum = i + 1;
+      pages[i].onclick = function(){
+        if (this.pageNum % 2 === 0){
+          this.classList.remove('flipped');
+          this.previousElementSibling && this.previousElementSibling.classList.remove('flipped');
+        } else {
+          this.classList.add('flipped');
+          this.nextElementSibling && this.nextElementSibling.classList.add('flipped');
         }
+      };
+    }
 
-        contentEl.innerHTML = '<div class="info-message">Не выбран ключ книги. Откройте через меню книг.</div>';
+    // навигация стрелками
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'ArrowRight') {
+        // ищем первую не перевёрнутую правую страницу
+        for (let i=0;i<pages.length;i++){
+          if (pages[i].pageNum % 2 === 1 && !pages[i].classList.contains('flipped')){
+            pages[i].click(); break;
+          }
+        }
+      } else if (e.key === 'ArrowLeft') {
+        // ищем ближайшую перевёрнутую левую и откатываем
+        for (let i=pages.length-1;i>=0;i--){
+          if (pages[i].pageNum % 2 === 0 && pages[i].classList.contains('flipped')){
+            pages[i].click(); break;
+          }
+        }
+      }
+    });
     })();
-    </script>
+
+
+
+    (function alignSpecific(){
+    const fix = new Set(['0140','0141']); // номера проблемных JPG
+    document.querySelectorAll('.page').forEach(p=>{
+    const raw = p.style.backgroundImage;
+    if (!raw) return;
+    const url = raw.replace(/^url\(["']?/, '').replace(/["']?\)$/, '');
+    const name = decodeURIComponent(url.split('/').pop());  // ...0140.jpg
+    const m = name.match(/(\d+)\.jpg$/i);
+    if (m && fix.has(m[1])) {
+      p.classList.add('align-center-bottom');
+    }
+    });
+    })();
+
+  </script>
 </body>
 </html>
-
-
