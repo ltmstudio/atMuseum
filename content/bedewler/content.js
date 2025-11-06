@@ -30,21 +30,21 @@
             text: 'Gerden — uzun boýunly, göwnejaý görkli at. Ýeňil hereketleri we mylaýym häsiýeti bilen ünsleri çekýär.',
             image: 'atlar_png/Gerden.png'
         },
-        'Gülistan': {
-            title: 'GÜLISTAN',
-            text: 'Gülistan — görk we mähir saçýan at. Bäsleşiklerde gözelligi we sazlaşykly ädimleri bilen tapawutlanýar.',
-            image: 'atlar_png/Gulistan.png'
-        },
-        'Keýmir III': {
-            title: 'KEÝMIR III',
-            text: 'Keýmir III — atçylyk taryhynda yz goýan bedewleriň biri. Güýçli beden gurluşy we berk häsiýeti bilen tanalýar.',
-            image: 'atlar_png/Keymir_III.png'
-        },
-        'Gadymyýet': {
-            title: 'GADYMYÝET',
-            text: 'Gadymyýet — adyndan mälim bolşy ýaly, taryhy gadymlara baý ilkinji nesilleriň dowamçysy. Tizlik we özboluşly görnüş bilen tapawutlanýar.',
-            image: 'atlar_png/Gadymyyet.png'
-        }
+        // 'Gülistan': {
+        //     title: 'GÜLISTAN',
+        //     text: 'Gülistan — görk we mähir saçýan at. Bäsleşiklerde gözelligi we sazlaşykly ädimleri bilen tapawutlanýar.',
+        //     image: 'atlar_png/Gulistan.png'
+        // },
+        // 'Keýmir III': {
+        //     title: 'KEÝMIR III',
+        //     text: 'Keýmir III — atçylyk taryhynda yz goýan bedewleriň biri. Güýçli beden gurluşy we berk häsiýeti bilen tanalýar.',
+        //     image: 'atlar_png/Keymir_III.png'
+        // },
+        // 'Gadymyýet': {
+        //     title: 'GADYMYÝET',
+        //     text: 'Gadymyýet — adyndan mälim bolşy ýaly, taryhy gadymlara baý ilkinji nesilleriň dowamçysy. Tizlik we özboluşly görnüş bilen tapawutlanýar.',
+        //     image: 'atlar_png/Gadymyyet.png'
+        // }
     };
 })();
 

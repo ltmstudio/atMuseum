@@ -270,7 +270,46 @@ function initializeBedewlerDetails() {
     const titleShadow = document.querySelector('.details-header .item-caption .caption-shadow');
     const textEl = document.querySelector('.details-text .details-text-content');
     const imgEl = document.querySelector('.details-figure .figure-img');
+    const detailsTextContainer = document.querySelector('.details-text');
     if (!headerWrap || !titleFill || !titleShadow || !textEl || !imgEl) return;
+    
+    // Добавляем drag-to-scroll функциональность для .details-text
+    if (detailsTextContainer) {
+        let isDown = false;
+        let startY = 0;
+        let startTop = 0;
+        
+        detailsTextContainer.addEventListener('pointerdown', (e) => {
+            // работаем только для мыши/пера; для тача и так нативный скролл
+            if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+                isDown = true;
+                startY = e.clientY;
+                startTop = detailsTextContainer.scrollTop;
+                detailsTextContainer.classList.add('dragging');
+                // фиксируем указатель, чтобы получать move за пределами
+                detailsTextContainer.setPointerCapture?.(e.pointerId);
+                e.preventDefault();
+            }
+        });
+        
+        detailsTextContainer.addEventListener('pointermove', (e) => {
+            if (!isDown) return;
+            const dy = e.clientY - startY;
+            detailsTextContainer.scrollTop = startTop - dy; // интуитивное направление
+            e.preventDefault();
+        });
+        
+        function endDrag(e) {
+            if (!isDown) return;
+            isDown = false;
+            detailsTextContainer.classList.remove('dragging');
+            detailsTextContainer.releasePointerCapture?.(e.pointerId);
+        }
+        
+        detailsTextContainer.addEventListener('pointerup', endDrag);
+        detailsTextContainer.addEventListener('pointercancel', endDrag);
+        detailsTextContainer.addEventListener('pointerleave', endDrag);
+    }
 
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id') || 'ÝANARDAG';

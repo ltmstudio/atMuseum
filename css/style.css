@@ -6,7 +6,7 @@
     /* Стиль текста для детальных страниц */
     --text-content-font-size: clamp(16px, 2vw, 31px);
     /* Универсальный размер шрифта для основного текста на всех страницах */
-    
+
     --main-text-font-size: clamp(16px, 2vw, 38px);
     --text-content-line-height: 1.5;
     --text-content-color: #fff;
@@ -49,8 +49,8 @@
     --nav-btn-text-font-size: clamp(18px, 2.2vw, 26px);
     /* Размер шрифта для длинных кнопок (меньший размер) */
     --nav-btn-small-font-size: clamp(1.5rem, 2vw, 1.5rem);
-    --poem-color:  rgba(255, 210, 40, 1);
-    
+    --poem-color: rgba(255, 210, 40, 1);
+
     /* Taryhy page buttons layout */
     --taryhy-btn-width: 45vw;
     --taryhy-row-gap: 20%;
@@ -151,18 +151,18 @@
     color: transparent;
     /* насыщенный золотой градиент */
     background: -webkit-linear-gradient(transparent, transparent), -webkit-linear-gradient(top,
-        rgba(255, 225, 95, 1) 0%,
-        rgba(255, 210, 40, 1) 18%,
-        rgba(245, 188, 20, 1) 32%,
-        rgba(205, 145, 15, 1) 46%,
-        rgba(250, 205, 40, 1) 62%,
-        rgba(255, 220, 110, 1) 78%,
-        rgba(240, 180, 35, 1) 90%,
-        rgba(212, 175, 55, 1) 100%);
+            rgba(255, 225, 95, 1) 0%,
+            rgba(255, 210, 40, 1) 18%,
+            rgba(245, 188, 20, 1) 32%,
+            rgba(205, 145, 15, 1) 46%,
+            rgba(250, 205, 40, 1) 62%,
+            rgba(255, 220, 110, 1) 78%,
+            rgba(240, 180, 35, 1) 90%,
+            rgba(212, 175, 55, 1) 100%);
     background: -o-linear-gradient(transparent, transparent), -o-linear-gradient(top,
-        rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+            rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
     background: linear-gradient(transparent, transparent), linear-gradient(to bottom,
-        rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
+            rgba(255, 225, 95, 1) 0%, rgba(255, 210, 40, 1) 18%, rgba(245, 188, 20, 1) 32%, rgba(205, 145, 15, 1) 46%, rgba(250, 205, 40, 1) 62%, rgba(255, 220, 110, 1) 78%, rgba(240, 180, 35, 1) 90%, rgba(212, 175, 55, 1) 100%);
     filter: saturate(1.15) brightness(1.05);
     background-clip: text;
     -webkit-background-clip: text;
@@ -197,6 +197,7 @@
     0% {
         background-position: -60rem 0;
     }
+
     100% {
         background-position: 60rem 0;
     }
@@ -254,9 +255,18 @@
     height: 56vh;
     overflow-y: auto;
     pointer-events: auto;
+    overscroll-behavior: contain;
+    cursor: grab;
+    touch-action: pan-y;
     /* Красивый скролл для Firefox */
     scrollbar-width: thin;
     scrollbar-color: #d4af37 rgba(0, 0, 0, 0.25);
+    padding: 0 1%;
+}
+
+.details-text.dragging {
+    cursor: grabbing;
+    user-select: none;
 }
 
 .details-header {
@@ -412,6 +422,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
 }
+
 .navigation-container-btn {
     position: fixed;
     z-index: 2;
@@ -427,6 +438,7 @@ body {
 .navigation-buttons-home {
     padding-bottom: 5%;
 }
+
 .navigation-buttons-home-kitaplar {
     padding-bottom: 6%;
 }
@@ -440,6 +452,7 @@ body {
     padding-bottom: 5%;
     column-gap: 2%;
 }
+
 /* Taryhy page: place buttons a bit lower */
 .navigation-container--taryhy {
     bottom: 3%;
@@ -461,6 +474,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 .cont {
     padding-left: 10vw;
     padding-right: 10vw;
@@ -516,31 +530,31 @@ body {
 }
 
 /* Первая кнопка kitaplar - немного правее и выше */
-.navigation-container--taryhy .navigation-buttons-kitaplar:first-of-type > .col-6:first-of-type {
+.navigation-container--taryhy .navigation-buttons-kitaplar:first-of-type>.col-6:first-of-type {
     position: relative !important;
     transform: translate(65px, -5px) !important;
 }
 
 /* Вторая кнопка kitaplar - на той же высоте, текст левее */
-.navigation-container--taryhy .navigation-buttons-kitaplar:first-of-type > .col-6:last-of-type {
+.navigation-container--taryhy .navigation-buttons-kitaplar:first-of-type>.col-6:last-of-type {
     position: relative !important;
     transform: translate(-100px, -5px) !important;
 }
 
 /* Третья кнопка kitaplar - ниже и правее */
-.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type > .col-6:first-of-type {
+.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type>.col-6:first-of-type {
     position: relative !important;
     transform: translate(65px, 8px) !important;
 }
 
 /* Четвертая кнопка kitaplar - на той же высоте что и третья */
-.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type > .col-6:last-of-type {
+.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type>.col-6:last-of-type {
     position: relative !important;
     transform: translate(-87px, 10px) !important;
 }
 
 /* Специальный стиль для четвертой кнопки - меньший шрифт */
-.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type > .col-6:last-of-type .nav-btn {
+.navigation-container--taryhy .navigation-buttons-kitaplar:last-of-type>.col-6:last-of-type .nav-btn {
     font-size: clamp(12px, 1.6vw, 24px);
     line-height: 1.15;
     padding: 0.4rem;
@@ -560,28 +574,29 @@ body {
 }
 
 /* Первая кнопка - немного выше и правее */
-.navigation-container--taryhy .navigation-buttons-taryhy:first-of-type > .col-6:first-of-type {
+.navigation-container--taryhy .navigation-buttons-taryhy:first-of-type>.col-6:first-of-type {
     position: relative !important;
     transform: translate(40px, -5px) !important;
 }
 
 /* Вторая кнопка - немного левее и на той же высоте */
-.navigation-container--taryhy .navigation-buttons-taryhy:first-of-type > .col-6:last-of-type {
+.navigation-container--taryhy .navigation-buttons-taryhy:first-of-type>.col-6:last-of-type {
     position: relative !important;
     transform: translate(-110px, -5px) !important;
 }
 
 /* Третья кнопка - немного ниже и правее */
-.navigation-container--taryhy .navigation-buttons-taryhy:last-of-type > .col-6:first-of-type {
+.navigation-container--taryhy .navigation-buttons-taryhy:last-of-type>.col-6:first-of-type {
     position: relative !important;
     transform: translate(55px, 10px) !important;
 }
 
 /* Четвертая кнопка - такая же высота, сдвиг влево как у второй */
-.navigation-container--taryhy .navigation-buttons-taryhy:last-of-type > .col-6:last-of-type {
+.navigation-container--taryhy .navigation-buttons-taryhy:last-of-type>.col-6:last-of-type {
     position: relative !important;
     transform: translate(-110px, 10px) !important;
 }
+
 .nav-btn {
     display: block;
     width: 100%;
@@ -675,6 +690,22 @@ body {
     filter: brightness(0.95);
 }
 
+/* Сдвиг кнопки назад влево на странице bedewler (где есть slider-container) */
+.video-container:has(.slider-container) .back-btn-bedewler {
+    left: 3%;
+    transform: translateX(0);
+    top: 9%;
+    bottom: unset;
+}
+
+.video-container:has(.slider-container) .back-btn-bedewler:hover {
+    transform: translateX(0) scale(1.05);
+}
+
+.video-container:has(.slider-container) .back-btn-bedewler:active {
+    transform: translateX(0) scale(0.95);
+}
+
 /* ===== Экран-заглушка при бездействии ===== */
 .idle-screen {
     position: fixed;
@@ -727,12 +758,13 @@ body {
     object-fit: cover;
 }
 
-.card-body-poem{
-    position: relative;  
-    z-index: 10; 
-    width: 80vh; height: 80vh; 
-    background-color: rgba(255, 255, 255, 0); 
-    left:0;
+.card-body-poem {
+    position: relative;
+    z-index: 10;
+    width: 80vh;
+    height: 80vh;
+    background-color: rgba(255, 255, 255, 0);
+    left: 0;
     margin-left: 1.5%;
     overflow-y: auto;
     overflow-x: hidden;
@@ -740,6 +772,7 @@ body {
     scrollbar-width: thin;
     scrollbar-color: #d4af37 rgba(0, 0, 0, 0.25);
 }
+
 /* Красивый скролл для WebKit/Chromium */
 .card-body-poem::-webkit-scrollbar {
     width: 10px;
@@ -761,18 +794,20 @@ body {
 .card-body-poem::-webkit-scrollbar-thumb:hover {
     background: linear-gradient(180deg, #ffe98a 0%, #ffc23f 45%, #d89a1a 100%);
 }
-.poem-title{ 
+
+.poem-title {
     background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: var(--main-text-font-size);
 }
-.card-text-poem{
-    white-space:pre-wrap;
+
+.card-text-poem {
+    white-space: pre-wrap;
     font-size: var(--main-text-font-size);
     line-height: var(--poem-line-height);
-    word-break:break-word;
-    hyphens:auto;
+    word-break: break-word;
+    hyphens: auto;
     text-align: center;
     text-indent: 0;
     margin-bottom: 20px;
@@ -780,6 +815,48 @@ body {
     max-width: 100%;
     word-spacing: 0.15em;
     overflow-wrap: break-word;
+}
+
+/* Стили для страницы taryhyinfo - скролл на card-body-poem */
+.card-body-poem.has-taryhy-content {
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    cursor: grab;
+    touch-action: pan-y;
+    /* Красивый скролл для Firefox */
+    scrollbar-width: thin !important;
+    scrollbar-color: #d4af37 rgba(0, 0, 0, 0.25) !important;
+}
+
+/* Красивый скролл для WebKit/Chromium */
+.card-body-poem.has-taryhy-content::-webkit-scrollbar {
+    width: 10px !important;
+}
+
+.card-body-poem.has-taryhy-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.22);
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, .25);
+}
+
+.card-body-poem.has-taryhy-content::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: linear-gradient(180deg, #ffe15f 0%, #f0b72a 45%, #c88c16 100%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .35) inset;
+}
+
+.card-body-poem.has-taryhy-content::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ffe98a 0%, #ffc23f 45%, #d89a1a 100%);
+}
+
+.card-body-poem.has-taryhy-content.dragging {
+    cursor: grabbing;
+    user-select: none;
+}
+
+.taryhy-text-content {
+    overflow: visible;
 }
 
 .taryhy-text-content p {
@@ -791,41 +868,46 @@ body {
     overflow-wrap: anywhere;
     /* color: rgba(255, 210, 40, 1); */
     background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    touch-action: pan-y;
 }
 
 /* poem-shygyrlar */
-.card-body-poem{
-    position: relative;  
-    z-index: 10; 
-    width: 80vh; height: 80vh; 
-    background-color: rgba(255, 0, 0, 0); 
-    left:0;
+.card-body-poem {
+    position: relative;
+    z-index: 10;
+    width: 80vh;
+    height: 80vh;
+    background-color: rgba(255, 0, 0, 0);
+    left: 0;
     margin-left: 1.5%;
 }
-.poem-title{ 
+
+.poem-title {
     background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-family: var(--poem-font-family);
 }
-.card-text-poem{
-    white-space:pre-wrap;
+
+.card-text-poem {
+    white-space: pre-wrap;
     font-size: var(--main-text-font-size);
     line-height: var(--poem-line-height);
-    word-break:break-word;
-    hyphens:auto;
+    word-break: break-word;
+    hyphens: auto;
     text-align: center;
     text-indent: 0;
     margin-bottom: 20px;
-   color: var(--poem-color);
+    color: var(--poem-color);
     max-width: 100%;
     word-spacing: 0.15em;
     overflow-wrap: break-word;
     font-family: var(--poem-font-family);
-   
+
 }
+
 .nav-btn-sygyrlar {
     display: flex;
     width: 100%;
@@ -836,14 +918,16 @@ body {
     min-height: 10vh;
     color: var(--nav-btn-sygyrlar-color);
     text-align: center;
-    justify-content: center; /* центр по горизонтали */
-    align-items: center;    
+    justify-content: center;
+    /* центр по горизонтали */
+    align-items: center;
     font-size: var(--button-font-size);
     font-family: var(--font-family-base);
     text-decoration: none;
     padding-bottom: 2%;
     text-transform: uppercase;
 }
+
 .nav-btn-sygyrlar-2 {
     display: flex;
     width: 100%;
@@ -854,58 +938,69 @@ body {
     min-height: 10vh;
     color: var(--nav-btn-sygyrlar-color);
     text-align: center;
-    justify-content: center; /* центр по горизонтали */
-    align-items: center;    
+    justify-content: center;
+    /* центр по горизонтали */
+    align-items: center;
     font-size: var(--button-font-size);
     font-family: var(--font-family-base);
     text-decoration: none;
     padding-top: 2%;
     text-transform: uppercase;
 }
+
 /* Второй ряд кнопок на странице kitaplar - не кликабельны (через onclick="return false;" в HTML) */
 .content {
     position: fixed;
     top: 10vh;
 }
+
 .content-container {
     padding-left: 5%;
     padding-right: 5%;
 }
+
 .content-container-taryhy {
     width: 100%;
     padding-left: 13.5%;
     padding-right: 14.5%;
 }
+
 .content-container-taryhy .row {
     width: 100%;
     display: flex;
     gap: var(--taryhy-row-gap);
 }
-.content-container-kitaplar{
+
+.content-container-kitaplar {
     width: 100%;
     padding-left: 13.5%;
     padding-right: 14.5%;
 }
+
 .content-container-kitaplar .row {
     width: 100%;
     display: flex;
     gap: var(--taryhy-row-gap);
 }
+
 .nav-btn-taryhy {
     padding-left: 0;
     padding-right: 0;
     flex: 0 0 calc((100% - var(--taryhy-row-gap)) / 2);
     max-width: calc((100% - var(--taryhy-row-gap)) / 2);
 }
+
 /* Единый размер шрифта для всех кнопок внутри nav-btn-taryhy */
 .nav-btn-taryhy .nav-btn-sygyrlar,
 .nav-btn-taryhy .nav-btn-sygyrlar-2 {
     font-size: var(--button-font-size);
 }
+
 .content-container-taryhy .row:first-child {
     margin-bottom: 7%;
 }
-/* Меньший размер шрифта для последней кнопки на странице kitaplar */
-.content-container-taryhy .row:last-child .nav-btn-taryhy:last-child .nav-btn-sygyrlar-2 {
+
+/* Меньший размер шрифта для последней кнопки только на странице kitaplar */
+.page-kitaplar .content-container-taryhy .row:last-child .nav-btn-taryhy:last-child .nav-btn-sygyrlar-2 {
     font-size: var(--nav-btn-small-font-size);
 }

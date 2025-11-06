@@ -106,6 +106,53 @@ Ahal-teke atlary häzirki döwürde çapuwlarda we dünýäniň dürli ýurtlary
             }).join('\n');
 
             contentEl.innerHTML = '<div class="taryhy-text-content">' + htmlContent + '</div>';
+            
+            // Добавляем класс для применения специальных стилей
+            const cardBody = document.querySelector('.card-body-poem');
+            if (cardBody) {
+                cardBody.classList.add('has-taryhy-content');
+            }
+            
+            // Добавляем drag-to-scroll функциональность для .card-body-poem (контейнер со скроллом)
+            setTimeout(function() {
+                const box = document.querySelector('.card-body-poem');
+                if (!box || !box.querySelector('.taryhy-text-content')) return;
+                
+                let isDown = false;
+                let startY = 0;
+                let startTop = 0;
+                
+                box.addEventListener('pointerdown', (e) => {
+                    // работаем только для мыши/пера; для тача и так нативный скролл
+                    if (e.pointerType === 'mouse' || e.pointerType === 'pen') {
+                        isDown = true;
+                        startY = e.clientY;
+                        startTop = box.scrollTop;
+                        box.classList.add('dragging');
+                        // фиксируем указатель, чтобы получать move за пределами
+                        box.setPointerCapture?.(e.pointerId);
+                        e.preventDefault();
+                    }
+                });
+                
+                box.addEventListener('pointermove', (e) => {
+                    if (!isDown) return;
+                    const dy = e.clientY - startY;
+                    box.scrollTop = startTop - dy; // интуитивное направление
+                    e.preventDefault();
+                });
+                
+                function endDrag(e) {
+                    if (!isDown) return;
+                    isDown = false;
+                    box.classList.remove('dragging');
+                    box.releasePointerCapture?.(e.pointerId);
+                }
+                
+                box.addEventListener('pointerup', endDrag);
+                box.addEventListener('pointercancel', endDrag);
+                box.addEventListener('pointerleave', endDrag);
+            }, 100);
         })();
     </script>
 </body>
