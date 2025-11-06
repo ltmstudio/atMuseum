@@ -28,6 +28,8 @@
     /* ====== PURE JS BOOK EFFECT (адаптировано) ====== */
     .book {
   transition: opacity 0.4s 0.2s;
+  padding-top: 10vw;
+  
 }
 p{
   margin-top: 8vw;
@@ -36,12 +38,12 @@ p{
   color: #000000;
 }
 .page {
-  width: 30vw;
-  height: 44vw;
+  width: 25vw;
+  height: 32vw;
   background-color: #111111;
   float: left;
   margin-bottom: 0.5em;
-  background: left top no-repeat;
+  background: center/contain no-repeat;
   background-size: cover;
 }
 .page:nth-child(even) {
@@ -51,7 +53,10 @@ p{
   perspective: 250vw;
 }
 .book .pages {
-  width: 60vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 49vw;
   height: 44vw;
   position: relative;
   transform-style: preserve-3d;
@@ -65,24 +70,22 @@ p{
   margin: 0;
   position: absolute;
   top: 0;
-  width: 30vw;
-  height: 44vw;
+  
+  width: 24.5vw;
+  height: 32vw;
   transform-origin: 0 0;
   transition: transform 1.4s;
   backface-visibility: hidden;
   transform-style: preserve-3d;
   cursor: pointer;
   user-select: none;
-  background-color: #f0f0f0;
+  background: #f0f0f0 center/contain no-repeat;
+  
 }
 .book .page:before {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0) center/contain no-repeat;
   transition: background 0.7s;
   z-index: 2;
 }
@@ -141,11 +144,15 @@ p{
 * :before,
 *:after {
   box-sizing: border-box;
+  
 }
 .page:nth-child(odd){
-  background-position: right top;
+  background-position: right center;
 }
-
+.page.align-center-bottom {
+  background-size: auto 100% !important;
+  background-position: center bottom !important;
+}
 
 
   </style>
@@ -168,7 +175,7 @@ p{
         </a>
         
       </div>
-    </div> -->
+    </div> 
 
     <div class="container-fluid content">
       <div class="info-column">
