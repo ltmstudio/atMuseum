@@ -19,7 +19,7 @@
     .navigation-container-btn{position:relative; z-index:20}
     .content{
       position:fixed; top:0; left:0; right:0; bottom:0;
-      display:flex; align-items:center; justify-content:center; z-index:3;
+      display:flex; align-items:center; justify-content:center; z-index:20;
     }
     .info-column,.info-content,#info-content{
       width:100%; height:100%; display:flex; align-items:center; justify-content:center;
@@ -40,7 +40,7 @@
       position:absolute; top:0;
       width:32vw; 
       height:44vw; 
-      /* max-width:950px;max-height:1350px; */
+      max-width:950px;max-height:1350px;
       transform-origin: 0 0;
       transition: transform 1.2s;
       backface-visibility: hidden;
@@ -50,8 +50,9 @@
       /* box-shadow: 0 10px 35px rgba(0,0,0,.35); */
       /* ключевое: auto 100% */}
     .page:before{
-      content:""; position:absolute; inset:0; z-index:2;
+      content:""; position:absolute; inset:0; z-index:20;
       background: rgba(0,0,0,0); transition: background .7s;
+      pointer-events: none; /* Критично: позволяет кликам проходить через ::before */
     }
 
     /* правая (odd) */
@@ -107,15 +108,17 @@
 
   </style>
 </head>
-<body>
+<body class="page-kitaplarinfo">
   <div class="video-container">
     <video id="mainVideo" autoplay muted loop playsinline>
       <source src="../assets/videos/kitaplar/kitaplar_fon.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
     </video>
     <a href="javascript:history.back()" class="back-btn-bedewler" aria-label="Назад">
-      YZA
-  </a>
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </a>
     <div class="navigation-container-btn">
       <div class="container-fluid">
         <!-- <a href="javascript:history.back()" class="back-btn" aria-label="Назад">
@@ -203,43 +206,51 @@
     mount.innerHTML = '';
     mount.appendChild(bookEl);
 
-    // z-index для слоя страниц
-    const pages = pagesEl.getElementsByClassName('page');
-    for (let i=0;i<pages.length;i++){
-      if (i % 2 === 0) pages[i].style.zIndex = (pages.length - i);
-    }
+    // Принудительный reflow для вычисления размеров перед инициализацией
+    void bookEl.offsetHeight; // Принудительный reflow
 
-    // логика клика (перелистывание пары)
-    for (let i=0;i<pages.length;i++){
-      pages[i].pageNum = i + 1;
-      pages[i].onclick = function(){
-        if (this.pageNum % 2 === 0){
-          this.classList.remove('flipped');
-          this.previousElementSibling && this.previousElementSibling.classList.remove('flipped');
-        } else {
-          this.classList.add('flipped');
-          this.nextElementSibling && this.nextElementSibling.classList.add('flipped');
-        }
-      };
-    }
-
-    // навигация стрелками
-    document.addEventListener('keydown', function(e){
-      if (e.key === 'ArrowRight') {
-        // ищем первую не перевёрнутую правую страницу
+    // Используем requestAnimationFrame для гарантии рендеринга
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        // z-index для слоя страниц
+        const pages = pagesEl.getElementsByClassName('page');
         for (let i=0;i<pages.length;i++){
-          if (pages[i].pageNum % 2 === 1 && !pages[i].classList.contains('flipped')){
-            pages[i].click(); break;
-          }
+          if (i % 2 === 0) pages[i].style.zIndex = (pages.length - i);
         }
-      } else if (e.key === 'ArrowLeft') {
-        // ищем ближайшую перевёрнутую левую и откатываем
-        for (let i=pages.length-1;i>=0;i--){
-          if (pages[i].pageNum % 2 === 0 && pages[i].classList.contains('flipped')){
-            pages[i].click(); break;
-          }
+
+        // логика клика (перелистывание пары)
+        for (let i=0;i<pages.length;i++){
+          pages[i].pageNum = i + 1;
+          pages[i].onclick = function(){
+            if (this.pageNum % 2 === 0){
+              this.classList.remove('flipped');
+              this.previousElementSibling && this.previousElementSibling.classList.remove('flipped');
+            } else {
+              this.classList.add('flipped');
+              this.nextElementSibling && this.nextElementSibling.classList.add('flipped');
+            }
+          };
         }
-      }
+
+        // навигация стрелками
+        document.addEventListener('keydown', function(e){
+          if (e.key === 'ArrowRight') {
+            // ищем первую не перевёрнутую правую страницу
+            for (let i=0;i<pages.length;i++){
+              if (pages[i].pageNum % 2 === 1 && !pages[i].classList.contains('flipped')){
+                pages[i].click(); break;
+              }
+            }
+          } else if (e.key === 'ArrowLeft') {
+            // ищем ближайшую перевёрнутую левую и откатываем
+            for (let i=pages.length-1;i>=0;i--){
+              if (pages[i].pageNum % 2 === 0 && pages[i].classList.contains('flipped')){
+                pages[i].click(); break;
+              }
+            }
+          }
+        });
+      });
     });
     })();
 

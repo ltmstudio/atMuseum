@@ -249,16 +249,15 @@
 .details-text {
     position: absolute;
     left: 16vw;
-    top: 27vh;
+    top: 28vh;
     width: 40vw;
     display: flex;
-    height: 56vh;
+    height: 52vh;
     overflow-y: auto;
     pointer-events: auto;
     overscroll-behavior: contain;
     cursor: grab;
     touch-action: pan-y;
-    /* Красивый скролл для Firefox */
     scrollbar-width: thin;
     scrollbar-color: #d4af37 rgba(0, 0, 0, 0.25);
     padding: 0 1%;
@@ -272,7 +271,7 @@
 .details-header {
     position: absolute;
     left: 13vw;
-    top: 1.5vh;
+    top: 7vh;
     width: 46vw;
     height: clamp(60px, 9vw, 140px);
     pointer-events: none;
@@ -368,8 +367,8 @@
 
 .details-figure {
     position: absolute;
-    right: 9vw;
-    bottom: 10vh;
+    right: 7vw;
+    bottom: 13vh;
     pointer-events: none;
 }
 
@@ -377,7 +376,7 @@
     width: 100%;
     object-fit: contain;
     filter: drop-shadow(0 6px 24px rgba(0, 0, 0, .45));
-    height: 65vh;
+    height: 60vh;
 }
 
 html,
@@ -417,10 +416,15 @@ body {
     position: fixed;
     z-index: 2;
     width: 100%;
-    bottom: 14%;
+    bottom: 17.5vh;
     /* bottom: 10.5%; */
     left: 50%;
     transform: translateX(-50%);
+}
+
+/* Специфичные стили для страницы medeniyeti */
+.page-medeniyeti .navigation-container {
+    bottom: 17.5%;
 }
 
 .navigation-container-btn {
@@ -437,6 +441,16 @@ body {
 
 .navigation-buttons-home {
     padding-bottom: 5%;
+}
+
+/* Специфичные стили для страницы medeniyeti */
+.page-medeniyeti .navigation-buttons-home {
+    padding-bottom: 4.1%;
+}
+
+/* Специфичные стили для страницы sygyrlar */
+.page-sygyrlar .navigation-buttons-home {
+    padding-bottom: 4.4%;
 }
 
 .navigation-buttons-home-kitaplar {
@@ -651,35 +665,40 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: clamp(200px, 15vw, 600px);
-    width: max-content;
-    /* padding: clamp(1.5vh, 2vh, 3vh) clamp(2vw, 4vw, 6vw); */
+    width: clamp(60px, 6vw, 80px);
+    height: clamp(60px, 6vw, 80px);
+    padding: 0;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: clamp(2px, 0.2vh, 4px) solid rgba(255, 210, 40, 0.5);
-    border-radius: clamp(12px, 1.5vh, 24px);
+    border-radius: 50%;
     color: white;
     text-decoration: none;
     position: fixed;
-    bottom: clamp(3vh, 5vh, 8vh);
+    bottom: clamp(2vh, 1vh, 8vh);
     left: 50%;
     transform: translateX(-50%);
     z-index: 11;
     transition: all 0.3s ease;
     cursor: pointer;
-    font-size: var(--back-button-font-size);
-    font-weight: 700;
-    font-family: var(--font-family-base);
-    letter-spacing: clamp(0.05em, 0.15vw, 0.2em);
     /* Градиент золота */
     background: linear-gradient(to bottom, rgba(255, 225, 95, 0.9) 0%, rgba(255, 210, 40, 0.9) 18%, rgba(245, 188, 20, 0.9) 32%, rgba(205, 145, 15, 0.9) 46%, rgba(250, 205, 40, 0.9) 62%, rgba(255, 220, 110, 0.9) 78%, rgba(240, 180, 35, 0.9) 90%, rgba(212, 175, 55, 0.9) 100%);
     color: rgba(255, 210, 40, 1);
-    text-shadow: 0 clamp(2px, 0.3vh, 8px) clamp(4px, 0.6vh, 16px) rgba(212, 175, 55, 0.8), 0 clamp(4px, 0.6vh, 12px) clamp(8px, 1vh, 24px) rgba(0, 0, 0, 0.5);
     box-shadow: 0 clamp(4px, 0.5vh, 20px) clamp(12px, 1.5vh, 40px) rgba(212, 175, 55, 0.3), 0 clamp(2px, 0.3vh, 8px) clamp(6px, 0.8vh, 16px) rgba(0, 0, 0, 0.3);
 }
 
+.back-btn-bedewler svg {
+    width: clamp(24px, 3vw, 32px);
+    height: clamp(24px, 3vw, 32px);
+    stroke: white;
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
 .back-btn-bedewler:hover {
-    transform: translateX(-50%) scale(1.05);
+    transform: translateX(-50%) scale(1.1);
     border-color: rgba(255, 210, 40, 0.9);
     filter: brightness(1.2);
     box-shadow: 0 clamp(6px, 0.8vh, 30px) clamp(18px, 2vh, 60px) rgba(212, 175, 55, 0.5), 0 clamp(4px, 0.6vh, 12px) clamp(10px, 1.2vh, 24px) rgba(0, 0, 0, 0.4);
@@ -694,16 +713,21 @@ body {
 .video-container:has(.slider-container) .back-btn-bedewler {
     left: 3%;
     transform: translateX(0);
-    top: 9%;
+    top: 13%;
     bottom: unset;
 }
 
 .video-container:has(.slider-container) .back-btn-bedewler:hover {
-    transform: translateX(0) scale(1.05);
+    transform: translateX(0) scale(1.1);
 }
 
 .video-container:has(.slider-container) .back-btn-bedewler:active {
     transform: translateX(0) scale(0.95);
+}
+
+/* Специфичный z-index для кнопки назад на странице kitaplarinfo */
+.page-kitaplarinfo .back-btn-bedewler {
+    z-index: 21;
 }
 
 /* ===== Экран-заглушка при бездействии ===== */
@@ -762,7 +786,7 @@ body {
     position: relative;
     z-index: 10;
     width: 80vh;
-    height: 80vh;
+    height: 75vh;
     background-color: rgba(255, 255, 255, 0);
     left: 0;
     margin-left: 1.5%;
@@ -873,23 +897,6 @@ body {
     touch-action: pan-y;
 }
 
-/* poem-shygyrlar */
-.card-body-poem {
-    position: relative;
-    z-index: 10;
-    width: 80vh;
-    height: 80vh;
-    background-color: rgba(255, 0, 0, 0);
-    left: 0;
-    margin-left: 1.5%;
-}
-
-.poem-title {
-    background: -webkit-linear-gradient(rgba(245, 188, 20, 1), rgba(255, 210, 40, 1));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: var(--poem-font-family);
-}
 
 .card-text-poem {
     white-space: pre-wrap;
@@ -997,7 +1004,7 @@ body {
 }
 
 .content-container-taryhy .row:first-child {
-    margin-bottom: 7%;
+    margin-bottom: 6%;
 }
 
 /* Меньший размер шрифта для последней кнопки только на странице kitaplar */
