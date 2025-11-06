@@ -18,8 +18,8 @@
     }
     .navigation-container-btn{position:relative; z-index:20}
     .content{
-      position:fixed; top:5vh; left:0; right:0; bottom:0;
-      display:flex; align-items:center; justify-content:center; z-index:10;
+      position:fixed; top:0; left:0; right:0; bottom:0;
+      display:flex; align-items:center; justify-content:center; z-index:3;
     }
     .info-column,.info-content,#info-content{
       width:100%; height:100%; display:flex; align-items:center; justify-content:center;
@@ -86,11 +86,11 @@
     .page.flipped:nth-child(even):hover:before{ background: rgba(0,0,0,.03); }
     .page.flipped:nth-child(even):before{ background: rgba(0,0,0,0); }
 
-    /* подпись/декор */
-    .page p{
+  
+    /* .page p{
       margin-top: 8vw; text-align:center; font-size: 5vw; color:#000;
       font-family: 'Lovers Quarrel', cursive;
-    }
+    } */
 
     .info-message{
       color:#ff5555; background:rgba(0,0,0,.45);
@@ -113,12 +113,15 @@
       <source src="../assets/videos/kitaplar/kitaplar_fon.mp4" type="video/mp4">
       Ваш браузер не поддерживает видео.
     </video>
-
+    <a href="javascript:history.back()" class="back-btn-bedewler" aria-label="Назад">
+      YZA
+  </a>
     <div class="navigation-container-btn">
       <div class="container-fluid">
-        <a href="javascript:history.back()" class="back-btn" aria-label="Назад">
+        <!-- <a href="javascript:history.back()" class="back-btn" aria-label="Назад">
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
-        </a>
+        </a> -->
+        
       </div>
     </div>
 
